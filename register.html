@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Eventify</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+    <!-- Add custom CSS here -->
+    <link href="css/sb-admin.css" rel="stylesheet">
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+    <!-- Page Specific CSS -->
+    <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+        html, body, #map-canvas {
+            height: 100%;
+            margin-top: 1.9%;
+            margin-left: 5.89%;
+        }
+    </style>
+    <script src ="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.4/angular.min.js"></script>
+    <script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.6/firebase.js'></script>
+    <script type='text/javascript'
+            src='https://cdn.firebase.com/js/simple-login/1.3.0/firebase-simple-login.js'>
+    </script>
+    <script src ="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.4/angular-cookies.js"></script>
+
+    <script>
+
+        var eventRef = new Firebase('https://eventify.firebaseio.com');
+        var userRef = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users')
+        var auth = new FirebaseSimpleLogin(eventRef, function(error, user) {
+
+
+        })
+        var eventApp = angular.module('eventApp',['ngCookies']);
+        eventApp.controller('registerController', ['$scope', '$cookieStore', function($scope,$cookieStore) {
+            $scope.authinfo = {};
+            $scope.user = null;
+            $scope.doRegister = function(){
+                console.log('Email: ' + $scope.authinfo.email);
+                console.log('Password: ' + $scope.authinfo.password);
+                auth.createUser($scope.authinfo.email, $scope.authinfo.password, function(error, user) {
+                    if (!error) {
+                        console.log('User Id: ' + user.id + ', Email: ' + user.email);
+                        var newUser = {email:$scope.authinfo.email, password:$scope.authinfo.password, name:$scope.authinfo.name};
+                        userRef.push(newUser)
+                        localStorage.setItem('User', (newUser.email));
+                        $scope.$apply();
+                        window.location="index.html";
+                                }
+                });
+
+            }
+        }]);
+
+        function initialize() {
+            var mapOptions = {
+                zoom: 8,
+                center: new google.maps.LatLng(-34.397, 150.644)
+            };
+            var map = new google.maps.Map(document.getElementById('map-canvas'),
+                    mapOptions);
+        }
+        function loadScript() {
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&' +
+                    'callback=initialize';
+            document.body.appendChild(script);
+        }
+        window.onload = loadScript;
+    </script>
+</head>
+
+<body ng-app="eventApp"  ng-controller="registerController">
+
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">Eventify</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav side-nav">
+                <li class="active"><a href="index.html"></i>Home</a></li>
+                <li><a href="events-list.html">Events List</a></li>
+                <li><a href="create-event.html">Create an Event</a></li>
+                <li><a href="events-u-hosting.html">Events I'm Hosting</a></li>
+                <li><a href="events-attending.html">Events I'm Attending</a></li>
+                <li><a href="friends-hosting.html">Events My Friends are Hosting</a></li>
+                <li><a href="friends-attending.html">Events My Friends are Attending</a></li>
+            </ul>
+
+
+        </div><!-- /.navbar-collapse -->
+    </nav>
+</div>
+<!--login modal-->
+<!--login modal-->
+<div id="map-canvas"></div>
+
+<div id="loginModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true" style = "background-color = rgba(0,0,0,0.75)">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h1 class="text-center">Create an Account</h1>
+            </div>
+            <div class="modal-body">
+                <form class="form col-md-12 center-block">
+                    <div class="form-group">
+                        <input type="text" class="form-control input-lg" ng-model = "authinfo.name" placeholder="Name">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control input-lg" placeholder="Email" ng-model = "authinfo.email">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control input-lg" placeholder="Password"  ng-model = "authinfo.password">
+                    </div>
+                    <div class="form-group">
+                    <input type="password" class="form-control input-lg" placeholder="Re-Enter Password" ng-model = "authinfo.repassword">
+                </div>
+
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-lg btn-block" type="button" ng-click="doRegister()" ng-Disabled="!authinfo.email || !authinfo.password || !authinfo.name || !authinfo.repassword">Create Account</button>
+                        <span class="pull-right"><a href="#"></a></span><span><a href="#">Need help?</a></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-12">
+                    <button class="btn" type = "button" onclick="javascript:window.location='sign-up.html'" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- JavaScript -->
+<script src="js/jquery-1.10.2.js"></script>
+<script src="js/bootstrap.js"></script>
+
+
+<!-- Page Specific Plugins -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>
+<script src="js/morris/chart-data-morris.js"></script>
+<script src="js/tablesorter/jquery.tablesorter.js"></script>
+<script src="js/tablesorter/tables.js"></script>
+
+
+
+</body>
+</html>

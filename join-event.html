@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Eventify</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+    <!-- Add custom CSS here -->
+    <link href="css/sb-admin.css" rel="stylesheet">
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+
+  </head>
+
+  <body>
+
+    <div id="wrapper">
+
+      <!-- Sidebar -->
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Eventify</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+          <ul class="nav navbar-nav side-nav">
+            <li class="active"><a href="index.html"></i>Home</a></li>
+			<li><a href="events-list.html">Events List</a></li>
+			<li><a href="create-event.html">Create an Event</a></li>
+			<li><a href="events-u-hosting.html">Events I'm Hosting</a></li>
+			<li><a href="events-attending.html">Events I'm Attending</a></li>
+			<li><a href="friends-hosting.html">Events My Friends are Hosting</a></li>
+			<li><a href="friends-attending.html">Events My Friends are Attending</a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right navbar-user">
+            <li class="dropdown messages-dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> Messages <span class="badge">7</span> <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li class="dropdown-header">7 New Messages</li>
+                <li class="message-preview">
+                  <a href="#">
+                    <span class="avatar"><img src="http://placehold.it/50x50"></span>
+                    <span class="name">John Smith:</span>
+                    <span class="message">Hey there, I wanted to ask you something...</span>
+                    <span class="time"><i class="fa fa-clock-o"></i> 4:34 PM</span>
+                  </a>
+                </li>
+                <li class="divider"></li>
+                <li class="message-preview">
+                  <a href="#">
+                    <span class="avatar"><img src="http://placehold.it/50x50"></span>
+                    <span class="name">John Smith:</span>
+                    <span class="message">Hey there, I wanted to ask you something...</span>
+                    <span class="time"><i class="fa fa-clock-o"></i> 4:34 PM</span>
+                  </a>
+                </li>
+                <li class="divider"></li>
+                <li class="message-preview">
+                  <a href="#">
+                    <span class="avatar"><img src="http://placehold.it/50x50"></span>
+                    <span class="name">John Smith:</span>
+                    <span class="message">Hey there, I wanted to ask you something...</span>
+                    <span class="time"><i class="fa fa-clock-o"></i> 4:34 PM</span>
+                  </a>
+                </li>
+                <li class="divider"></li>
+                <li><a href="#">View Inbox <span class="badge">7</span></a></li>
+              </ul>
+            </li>
+            <li class="dropdown alerts-dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> Alerts <span class="badge">3</span> <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Default <span class="label label-default">Default</span></a></li>
+                <li><a href="#">Primary <span class="label label-primary">Primary</span></a></li>
+                <li><a href="#">Success <span class="label label-success">Success</span></a></li>
+                <li><a href="#">Info <span class="label label-info">Info</span></a></li>
+                <li><a href="#">Warning <span class="label label-warning">Warning</span></a></li>
+                <li><a href="#">Danger <span class="label label-danger">Danger</span></a></li>
+                <li class="divider"></li>
+                <li><a href="#">View All</a></li>
+              </ul>
+            </li>
+            <li class="dropdown user-dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
+                <li><a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge">7</span></a></li>
+                <li><a href="#"><i class="fa fa-gear"></i> Settings</a></li>
+                <li class="divider"></li>
+                <li><a href="#"><i class="fa fa-power-off"></i> Log Out</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+    <div id="page-wrapper">
+
+         <div class="row">
+          <div class="col-lg-12">
+            <h1>Event Information <small>Join Event</small></h1>
+            <ol class="breadcrumb">
+              <li><i class="icon-dashboard"> </li>
+              <li class="active"><i class="icon-file-alt"></li>
+            </ol>
+          </div>
+        </div><!-- /.row -->
+				<div class="form-group">
+                <label>Event Name</label>
+                <input class="form-control" id="eventName" type="text" placeholder="" disabled>
+              </div>
+			  <div class="form-group">
+                <label>Event Creator</label>
+                <input class="form-control" id="eventCrea" type="text" placeholder="" disabled>
+              </div>
+			  <div class="form-group">
+                <label>Event Description</label>
+                <input class="form-control" id="eventDesc" type="text" placeholder="" disabled>
+              </div>
+			  <div class="form-group">
+                <label>Attendees</label>
+                <input class="form-control" id="attend" type="text" placeholder="" disabled>
+              </div>
+			  <div class="form-group">
+                <label>Location</label>
+                <input class="form-control" id="loc" type="text" placeholder="" disabled>
+              </div>
+			  <div class="form-group">
+                <label>Date</label>
+                <input class="form-control" id="date" type="text" placeholder="" disabled>
+              </div>
+			  <div class="form-group">
+                <label>Start Time</label>
+                <input class="form-control" id="startTime" type="text" placeholder="" disabled>
+              </div>
+			  <div class="form-group">
+                <label>End Time</label>
+                <input class="form-control" id="endTime" type="text" placeholder="" disabled>
+              </div>
+			  <div class="form-group">
+                <label>Capacity</label>
+                <input class="form-control" id="capacity" type="text" placeholder="" disabled>
+              </div>
+			 <button type = "submit" class = "btn btn-defaul" ng-click = "join()"> Join!</button>
+		
+
+    </div><!-- /#wrapper -->
+
+    <!-- JavaScript -->
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="js/bootstrap.js"></script>
+	<script src="https://static.firebase.com/v0/firebase.js"></script>
+		<script>
+		function getQueryVariable(variable) {
+		var query = window.location.search.substring(1);
+		var vars = query.split('&');
+		for (var i = 0; i < vars.length; i++) {
+			var pair = vars[i].split('=');
+			if (decodeURIComponent(pair[0]) == variable) {
+				return decodeURIComponent(pair[1]);
+			}
+		}
+		console.log('Query variable %s not found', variable);
+	}
+	
+	var queryId = getQueryVariable("eventid");
+	var i = 0;
+		var locations = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/' + queryId);
+		locations.on('value', function(snapshot){
+		var event = snapshot.val();
+	$("#eventName").val(event.name);
+	$("#eventCrea").val(event.eventcreator);
+	$("#eventDesc").val(event.description);
+	$("#date").val(event.date);
+	$("#loc").val(event.address);
+	$("#startTime").val(event.start);
+	$("#endTime").val(event.end);
+	$("#capacity").val(event.capacity);
+	var people = "";
+	event.antendees.forEach(function(messageSnapshot){
+		people += messageSnapshot.email + ";  ";
+		})
+	$("#attend").val(people);
+		})
+		
+	</script>
+
+  </body>
+</html>

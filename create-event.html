@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.4/angular.min.js"></script>
+      <script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.6/firebase.js'></script>
+      <script type='text/javascript'
+              src='https://cdn.firebase.com/js/simple-login/1.3.0/firebase-simple-login.js'>
+      </script>
+      <script src ="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.4/angular-cookies.js"></script>
+
+      <script>
+          var eventRef = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events');
+          var eventApp = angular.module('eventApp',["ngCookies"]);
+          var test = {};
+          eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {
+              $scope.eventdata = {};
+
+              $scope.user = "not logged in";
+              $scope.user = localStorage.getItem("User");
+              console.log($scope.user);
+              $scope.createEvent = function() {
+                  console.log($scope.eventdata);
+                  eventRef.push({eventcreator: $scope.user, date: $scope.eventdata.date.toString(), address: $scope.eventdata.address, capacity: $scope.eventdata.capacity, description: $scope.eventdata.description, start: $scope.eventdata.starttime.toString(), end: $scope.eventdata.endtime.toString(), name: $scope.eventdata.namedata})
+                  window.location = "create-event.html"
+              }
+          }])
+
+      </script>
+    <title>Eventify</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+    <!-- Add custom CSS here -->
+    <link href="css/sb-admin.css" rel="stylesheet">
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+  </head>
+
+  <body  ng-app="eventApp"  ng-controller="registerController">
+
+    <div id="wrapper">
+
+      <!-- Sidebar -->
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Eventify</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+          <ul class="nav navbar-nav side-nav">
+            <li><a href="index.html"></i>Home</a></li>
+			<li><a href="events-list.html">Events List</a></li>
+			<li class="active"><a href="create-event.html">Create an Event</a></li>
+			<li><a href="events-u-hosting.html">Events I'm Hosting</a></li>
+			<li><a href="events-attending.html">Events I'm Attending</a></li>
+			<li><a href="friends-hosting.html">Events My Friends are Hosting</a></li>
+			<li><a href="friends-attending.html">Events My Friends are Attending</a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right navbar-user">
+
+            <li class="dropdown user-dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>{{user}}<b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
+                <li><a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge">7</span></a></li>
+                <li><a href="#"><i class="fa fa-gear"></i> Settings</a></li>
+                <li class="divider"></li>
+                <li><a href="sign-up.html"><i class="fa fa-power-off"></i> Log Out</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <div id="page-wrapper">
+
+        <div class="row">
+          <div class="col-lg-12">
+            <h1>Create a New Event </h1>
+            <ol class="breadcrumb">
+              <li><i class="icon-dashboard"></i></li>
+            </ol>
+			<form>
+
+			  <div class="form-group">
+
+                <label>Event Name</label>
+                <input class="form-control"placeholder="Enter event name" ng-model = "eventdata.namedata">
+              </div>
+			  <div class="form-group">
+                <label>Event Description</label>
+                <input class="form-control" placeholder="Enter event description" ng-model = "eventdata.description">
+              </div>
+			  <div class="form-group">
+                <label>Location</label>
+                <input class="form-control" placeholder="Enter text" ng-model = "eventdata.address">
+              </div>
+			  <div class="form-group">
+                <label>Date</label>
+                <input class="form-control" type = "date" placeholder="Enter text" ng-model = "eventdata.date">
+              </div> 	
+			  <div class="form-group">
+                <label>Start Time</label>
+                <input class="form-control" type = "time" placeholder="Enter text" ng-model = "eventdata.starttime">
+              </div>
+			  <div class="form-group">
+                <label>End Time</label>
+                <input class="form-control" type = "time" placeholder="Enter text" ng-model = "eventdata.endtime">
+			  </div>
+			  <div class="form-group">
+                <label>Capacity</label>
+                <input class="form-control" type = "number" min = '0' placeholder="Enter Capacity" ng-model = "eventdata.capacity">
+              </div>
+			  <button type = "submit" class = "btn btn-defaul" ng-click = "createEvent()"> Create Event</button>
+			  <button type = "reset" class = "btn btn-defaul"> Reset Form</button>
+			  
+
+        </div><!-- /.row -->
+    </div>
+      </div><!-- /#page-wrapper -->
+
+    </div><!-- /#wrapper -->
+
+    <!-- JavaScript -->
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="js/bootstrap.js"></script>
+
+  </body>
+</html>
