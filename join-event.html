@@ -18,6 +18,29 @@
     <script src="js/jquery-1.10.2.js"></script>
     <script src="js/bootstrap.js"></script>
 	<script src="https://static.firebase.com/v0/firebase.js"></script>
+	<script src ="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.4/angular.min.js"></script>
+      <script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.6/firebase.js'></script>
+      <script type='text/javascript' src='https://cdn.firebase.com/js/simple-login/1.3.0/firebase-simple-login.js'>
+      </script>
+       <script src ="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.4/angular-cookies.js"></script>
+
+	  <script>
+		var qID = getQueryVariable("eventid");
+		var i = 0;
+		  var eventRef = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/' + qID);
+          var eventApp = angular.module('eventApp',["ngCookies"]);
+          var test = {};
+          eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {
+              $scope.eventdata = {};
+              $scope.user = "not logged in";
+              $scope.user = localStorage.getItem("User");
+              console.log($scope.user);
+              $scope.joinEvent = function() {
+                  eventRef.push({attendees : [{{user}}})
+                  window.location = "index.html";
+              }
+          }])
+	  </script>
 		<script>
 		function getQueryVariable(variable) {
 		var query = window.location.search.substring(1);
@@ -57,7 +80,7 @@
 	</script>
   </head>
 
-  <body>
+  <body  ng-app = "eventApp" ng-controller = "registerController">
 
     <div id="wrapper">
 
@@ -195,7 +218,7 @@
                 <label>Capacity</label>
                 <input class="form-control" id="capacity" type="text" placeholder="" disabled>
               </div>
-			 <button type = "submit" class = "btn btn-defaul" ng-click = "join()"> Join!</button>
+			 <button type = "submit" class = "btn btn-defaul" ng-click = "joinEvent()"> Join!</button>
 		
 
     </div><!-- /#wrapper -->

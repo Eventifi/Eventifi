@@ -55,14 +55,20 @@
                 console.log('Email: ' + $scope.authinfo.email);
                 console.log('Password: ' + $scope.authinfo.password);
                 auth.createUser($scope.authinfo.email, $scope.authinfo.password, function(error, user) {
-                    if (!error) {
+                    if (!error)
+					{
                         console.log('User Id: ' + user.id + ', Email: ' + user.email);
                         var newUser = {email:$scope.authinfo.email, password:$scope.authinfo.password, name:$scope.authinfo.name};
                         userRef.push(newUser)
                         localStorage.setItem('User', (newUser.email));
                         $scope.$apply();
-                        window.location="index.html";
-                                }
+						window.location = "index.html";
+					}
+						else
+						{
+							$scope.redo = "Your Passwords Do Not Match. Please Try Again";
+						}
+							
                 });
 
             }
@@ -129,7 +135,6 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h1 class="text-center">Create an Account</h1>
             </div>
             <div class="modal-body">
@@ -146,10 +151,10 @@
                     <div class="form-group">
                     <input type="password" class="form-control input-lg" placeholder="Re-Enter Password" ng-model = "authinfo.repassword">
                 </div>
-
+					
                     <div class="form-group">
-                        <button class="btn btn-primary btn-lg btn-block" type="button" ng-click="doRegister()" ng-Disabled="!authinfo.email || !authinfo.password || !authinfo.name || !authinfo.repassword">Create Account</button>
-                        <span class="pull-right"><a href="#"></a></span><span><a href="#">Need help?</a></span>
+                        <button class="btn btn-primary btn-lg btn-block" type="button" ng-click="doRegister()" ng-Disabled="!authinfo.email || !authinfo.password || !authinfo.name || !authinfo.repassword || authinfo.repassword != authinfo.password">Create Account</button>
+                        <span class="pull-right"><a href="#"></a></span><span><a href="help.html">Need help?</a></span>
                     </div>
                 </form>
             </div>

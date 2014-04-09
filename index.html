@@ -74,6 +74,10 @@
 			localStorage.clear();
 			window.location = "sign-up.html";
 		}
+		function redirection() {
+			if(localStorage.getItem("User") == null)
+				window.location = "sign-up.html";
+		}
 		function initialize() {
 		  geocoder = new google.maps.Geocoder();
 		  var mapOptions = {
@@ -119,8 +123,8 @@
 	
   </head>
 
-  <body  ng-app="eventApp"  ng-controller="registerController">
-
+  <body  ng-app="eventApp"  ng-controller="registerController" onload = "redirection()">
+	redirection
     <div id="wrapper">
 
       <!-- Sidebar -->
