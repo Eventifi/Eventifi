@@ -31,7 +31,7 @@
 		left: 225px;
 		position: absolute
       }
-    </style>
+    </style>	
   </head>
 
   <body  ng-app="eventApp"  ng-controller="registerController" onload = "redirection()">
@@ -142,7 +142,6 @@
 		  }
 		  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 		  codeAddress();
-		  map.panTo(pos);
 		}
 
 		function codeAddress() {
