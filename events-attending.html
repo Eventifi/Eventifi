@@ -15,34 +15,7 @@
     <link href="css/sb-admin.css" rel="stylesheet">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
   </head>
-
-  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
-  <script src="https://static.firebase.com/v0/firebase.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.4/angular.min.js"></script>
-  <script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.6/firebase.js'></script>
-  <script type='text/javascript'
-          src='https://cdn.firebase.com/js/simple-login/1.3.0/firebase-simple-login.js'>
-  </script>
-  <script src ="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.4/angular-cookies.js"></script>
-  <script>
-  function logOut() {
-		localStorage.clear();
-		window.location = "sign-up.html";
-	}
-      var eventRef = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events');
-      var eventApp = angular.module('eventApp',["ngCookies"]);
-      var test = {};
-      eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {
-          $scope.eventdata = {};
-
-          $scope.user = "not logged in";
-          $scope.user = localStorage.getItem("User");
-          console.log($scope.user);
-
-      }])
-
-  </script>
-  <body ng-app="eventApp"  ng-controller="registerController">
+  <body  ng-app="eventApp"  ng-controller="registerController" onload="redirection()">
     <div id="wrapper">
 
       <!-- Sidebar -->
@@ -170,7 +143,35 @@
 
     <!-- JavaScript -->
     <script src="js/jquery-1.10.2.js"></script>
-    <script src="js/bootstrap.js"></script>
+    <script src="js/bootstrap.js"></script>	
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
+  <script src="https://static.firebase.com/v0/firebase.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.4/angular.min.js"></script>
+  <script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.6/firebase.js'></script>
+  <script type='text/javascript' src='https://cdn.firebase.com/js/simple-login/1.3.0/firebase-simple-login.js'></script>
+  <script src ="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.4/angular-cookies.js"></script>
+  <script>
+  function logOut() {
+		localStorage.clear();
+		window.location = "sign-up.html";
+	}
+		function redirection() {
+			if(localStorage.getItem("User") == null)
+				window.location = "sign-up.html";
+		}
+      var eventRef = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events');
+      var eventApp = angular.module('eventApp',["ngCookies"]);
+      var test = {};
+      eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {
+          $scope.eventdata = {};
+
+          $scope.user = "not logged in";
+          $scope.user = localStorage.getItem("User");
+          console.log($scope.user);
+
+      }])
+
+  </script>
 
   </body>
 </html>
