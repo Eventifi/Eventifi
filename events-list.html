@@ -15,7 +15,73 @@
     <link href="css/sb-admin.css" rel="stylesheet">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
 	<script src="https://static.firebase.com/v0/firebase.js"></script>
+	
+    <!-- JavaScript -->
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="js/bootstrap.js"></script>
+	  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
+	  <script src="https://static.firebase.com/v0/firebase.js"></script>
+	  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.4/angular.min.js"></script>
+	  <script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.6/firebase.js'></script>
+	  <script type='text/javascript' src='https://cdn.firebase.com/js/simple-login/1.3.0/firebase-simple-login.js'></script>
+	  <script src ="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.4/angular-cookies.js"></script>
+	  <script>
+	  function logOut() {
+			localStorage.clear();
+			window.location = "sign-up.html";
+		}
+		  var eventRef = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events');
+		  var eventApp = angular.module('eventApp',["ngCookies"]);
+		  var test = {};
+		  eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {
+			  $scope.eventdata = {};
 
+			  $scope.user = "not logged in";
+			  $scope.user = localStorage.getItem("User");
+			  console.log($scope.user);
+
+		  }])
+			function redirection() {
+				if(localStorage.getItem("User") == null)
+					window.location = "sign-up.html";
+			}
+
+	  </script>
+		<script>
+		var table = document.getElementById("info");
+		var event = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/');
+		event.on('value', function(snapshot){
+		snapshot.forEach(function(messageSnapshot){
+			var address = messageSnapshot.val().address;
+			var name = messageSnapshot.val().name;
+			var description = messageSnapshot.val().description;
+			var capacity = messageSnapshot.val().capacity;
+			var date = messageSnapshot.val().date;
+			var startTime = messageSnapshot.val().start;
+			var endTime = messageSnapshot.val().end;
+		
+		// Create an empty <tr> element and add it to the 1st position of the table:
+		var row = table.insertRow(-1);
+		
+		// Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+		var cell1 = row.insertCell(0);
+		var cell2 = row.insertCell(1);
+		var cell3 = row.insertCell(2);
+		var cell4 = row.insertCell(3);
+		var cell5 = row.insertCell(4);
+		var cell6 = row.insertCell(5);
+		var cell7 = row.insertCell(6);
+		
+		// Add some text to the new cells:
+		cell1.innerHTML = name;
+		cell2.innerHTML = address;
+		cell3.innerHTML = description;
+		cell4.innerHTML = date;
+		cell5.innerHTML = startTime;
+		cell6.innerHTML = endTime;
+		cell7.innerHTML = capacity;
+		})})
+	</script>
   </head>
   <body  ng-app="eventApp"  ng-controller="registerController" onload="redirection()">
     <div id="wrapper">
@@ -95,75 +161,5 @@
       </div><!-- /#page-wrapper -->
 
     </div><!-- /#wrapper -->
-
-    <!-- JavaScript -->
-    <script src="js/jquery-1.10.2.js"></script>
-    <script src="js/bootstrap.js"></script>
-	
-  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
-  <script src="https://static.firebase.com/v0/firebase.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.4/angular.min.js"></script>
-  <script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.6/firebase.js'></script>
-  <script type='text/javascript' src='https://cdn.firebase.com/js/simple-login/1.3.0/firebase-simple-login.js'></script>
-  <script src ="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.4/angular-cookies.js"></script>
-  <script>
-  function logOut() {
-		localStorage.clear();
-		window.location = "sign-up.html";
-	}
-      var eventRef = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events');
-      var eventApp = angular.module('eventApp',["ngCookies"]);
-      var test = {};
-      eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {
-          $scope.eventdata = {};
-
-          $scope.user = "not logged in";
-          $scope.user = localStorage.getItem("User");
-          console.log($scope.user);
-
-      }])
-		function redirection() {
-			if(localStorage.getItem("User") == null)
-				window.location = "sign-up.html";
-		}
-
-  </script>
-		<script>
-		var table = document.getElementById("info");
-		var event = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/');
-		event.on('value', function(snapshot){
-		snapshot.forEach(function(messageSnapshot){
-			var address = messageSnapshot.val().address;
-			var name = messageSnapshot.val().name;
-			var description = messageSnapshot.val().description;
-			var capacity = messageSnapshot.val().capacity;
-			var date = messageSnapshot.val().date;
-			var startTime = messageSnapshot.val().start;
-			var endTime = messageSnapshot.val().end;
-		
-		// Create an empty <tr> element and add it to the 1st position of the table:
-		var row = table.insertRow(-1);
-		
-		// Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
-		var cell1 = row.insertCell(0);
-		var cell2 = row.insertCell(1);
-		var cell3 = row.insertCell(2);
-		var cell4 = row.insertCell(3);
-		var cell5 = row.insertCell(4);
-		var cell6 = row.insertCell(5);
-		var cell7 = row.insertCell(6);
-		
-		// Add some text to the new cells:
-		cell1.innerHTML = name;
-		cell2.innerHTML = address;
-		cell3.innerHTML = description;
-		cell4.innerHTML = date;
-		cell5.innerHTML = startTime;
-		cell6.innerHTML = endTime;
-		cell7.innerHTML = capacity;
-		})})
-	</script>
-	
-
   </body>
 </html>
