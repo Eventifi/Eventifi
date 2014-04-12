@@ -47,7 +47,7 @@
               var auth = new FirebaseSimpleLogin(eventRef, function(error, user) {
                   if (error) {
                       // an error occurred while attempting login
-					  $scope.redo = "Username or Password Not Recognized, Please Try Again";
+					  $scope.redo = "Username or password not recognized.";
                   } else if (user) {
                       // user authenticated with Firebase
                       console.log('User ID: ' + user.id + ', Provider: ' + user.provider);
