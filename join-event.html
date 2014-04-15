@@ -92,7 +92,9 @@
 			$scope.user = localStorage.getItem("User");
 			$scope.joinEvent = function() {
                   eventRef.push({email: $scope.user});
-                  window.location = "index.html";
+                  $scope.worked = "You have successfully joined the event!";
+                  location.reload();
+                  
               }
 		}]) 
 	</script>
@@ -187,6 +189,7 @@
 			  <div class="form-group">
                 <label>Capacity</label>
                 <input class="form-control" id="capacity" type="text" placeholder="" disabled>
+			<h4 class = "text-center">{{worked}}</h4>
               </div>
 			 <button type = "submit" class = "btn btn-defaul" ng-click = "joinEvent()"> Join!</button>
 		
