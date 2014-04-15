@@ -29,19 +29,41 @@
 	    <!-- JavaScript -->
    
 	<script>
-		function logOut() {
+	  function logOut() {
 			localStorage.clear();
 			window.location = "sign-up.html";
 		}
-		function redirection() {
-			if(localStorage.getItem("User") == null)
-				window.location = "sign-up.html";
-		}
-		
+		  var eventRef = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events');
+		  var eventApp = angular.module('eventApp',["ngCookies"]);
+		  var test = {};
+		  eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {
+			  $scope.eventdata = {};
+	
+			  $scope.user = "not logged in";
+			  $scope.user = localStorage.getItem("User");
+			  console.log($scope.user);
+	
+		  }])
+			function redirection() {
+				if(localStorage.getItem("User") == null)
+					window.location = "sign-up.html";
+			}
+	
 	</script>
 	  
 		<script>
 		function getQueryVariable(variable) {
+		var query = window.location.search.substring(1);
+		var vars = query.split('&');
+		for (var i = 0; i < vars.length; i++) {
+			var pair = vars[i].split('=');
+			if (decodeURIComponent(pair[0]) == variable) {
+				return decodeURIComponent(pair[1]);
+			}
+		}
+		console.log('Query variable %s not found', variable);
+	}
+		function getQueryAttendee(variable) {
 		var query = window.location.search.substring(1);
 		var vars = query.split('&');
 		for (var i = 0; i < vars.length; i++) {
@@ -66,21 +88,21 @@
 	$("#endTime").val(event.end);
 	$("#capacity").val(event.capacity);
 	var people = "";
-	event.attendees.forEach(function(messageSnapshot){
-		people += messageSnapshot.email + ";  ";
-		})
+	var eventAtt = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/' + queryId + '/attendees');
+	eventAtt.on('value', function(snapshot){
+	snapshot.forEach(function(messageSnapshot){
+		people += messageSnapshot.val().email + "; ";
+		})})
 	$("#attend").val(people);
 		})
 		
 	var eventRef = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/' + queryId + '/attendees');
 		var eventApp = angular.module('eventApp',["ngCookies"]);
 		eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {
-			$scope.eventdata = {};
 			$scope.user = "not logged in";
 			$scope.user = localStorage.getItem("User");
 			$scope.joinEvent = function() {
-                  console.log($scope.eventdata);
-                  eventRef.push($scope.user);
+                  eventRef.push({email: $scope.user});
                   window.location = "index.html";
               }
 		}]) 
