@@ -48,7 +48,7 @@
               console.log($scope.user);
               $scope.createEvent = function() {
                   console.log($scope.eventdata);
-                  eventRef.push({attendees: {}, eventcreator: $scope.user, date: $scope.eventdata.date.toString(), address: $scope.eventdata.address, capacity: $scope.eventdata.capacity, description: $scope.eventdata.description, start: $scope.eventdata.starttime.toString(), end: $scope.eventdata.endtime.toString(), name: $scope.eventdata.namedata})
+                  eventRef.push({attendees: {$scope.user}, eventcreator: $scope.user, date: $scope.eventdata.date.toString(), address: $scope.eventdata.address, capacity: $scope.eventdata.capacity, description: $scope.eventdata.description, start: $scope.eventdata.starttime.toString(), end: $scope.eventdata.endtime.toString(), name: $scope.eventdata.namedata})
                   window.location = "index.html";
               }
           }])
