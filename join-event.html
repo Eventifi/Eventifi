@@ -18,10 +18,8 @@
   <script src="js/jquery-1.10.2.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-    <script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>
-    <script src="js/morris/chart-data-morris.js"></script>
-    <script src="js/tablesorter/jquery.tablesorter.js"></script>
-    <script src="js/tablesorter/tables.js"></script>
+    <script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>	
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.4/angular.min.js"></script>
     <script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.6/firebase.js'></script>
     <script type='text/javascript' src='https://cdn.firebase.com/js/simple-login/1.3.0/firebase-simple-login.js'></script>
@@ -75,7 +73,7 @@
 	$("#attend").val(people);
 		})
 		
-	var eventRef = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events' + queryId + attendees);
+	var eventRef = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/' + queryId + '/attendees');
 		var eventApp = angular.module('eventApp',["ngCookies"]);
 		eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {
 			$scope.eventdata = {};
