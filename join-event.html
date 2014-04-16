@@ -29,6 +29,12 @@
 	    <!-- JavaScript -->
    
 	<script>
+		function redirection() {
+			if(localStorage.getItem("User") == null)
+				window.location = "sign-up.html";
+			if(getQueryVariable("eventid") == null)
+				window.location = "index.html";
+		}
 	  function logOut() {
 			localStorage.clear();
 			window.location = "sign-up.html";
@@ -44,11 +50,7 @@
 			  console.log($scope.user);
 	
 		  }])
-			function redirection() {
-				if(localStorage.getItem("User") == null)
-					window.location = "sign-up.html";
-			}
-	
+
 	</script>
 		<script>
 		function getQueryVariable(variable) {
@@ -107,7 +109,7 @@
 				  var ent = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/' + queryId + '/attendees');
 				  ent.on('value', function(snapshot){
 				  snapshot.forEach(function(messageSnapshot){
-				  if(user = messageSnapshot.val().email)
+				  if($scope.user == messageSnapshot.val().email)
 					joined = true;
 				  })})
 				  
@@ -220,7 +222,7 @@
                 <input class="form-control" id="endTime" type="text" placeholder="" disabled>
               </div>
 			  <div class="form-group">
-                <label>Capacity</label>
+                <label>Spots Left</label>
                 <input class="form-control" id="capacity" type="text" placeholder="" disabled>
 			<h4 class = "text-center">{{worked}}</h4>
               </div>
