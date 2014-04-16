@@ -84,6 +84,9 @@
 	$("#attend").val(people);
 		})
 	
+
+		
+	
 	var eventRef = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/' + queryId + '/attendees');
 		var eventRef2 = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/' + queryId );
 
@@ -92,10 +95,6 @@
 			$scope.user = "not logged in";
 			$scope.user = localStorage.getItem("User");
 			$scope.joinEvent = function() {
-				  var notJoined = new function()
-					{
-						
-					}
 				  
 				  var cap = 0;			  
 				  var locations = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/' + queryId);
@@ -104,20 +103,29 @@
 				  $("#capacity").val(event.capacity);
 				   cap = event.capacity - 1;
 				  })
+				  var joined = false;
+				  var ent = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/' + queryId + '/attendees');
+				  ent.on('value', function(snapshot){
+				  snapshot.forEach(function(messageSnapshot){
+				  if(user = messageSnapshot.val().email)
+					joined = true;
+				  })})
 				  
-				  
-				  if(cap > 0)
+				  if(cap < 0)
 				  {
+					alert("This Event is Up To Capacity. Please Join A Different Event");
+				  }
+				 else if(joined == true)
+				 {
+					alert("You have already joined this event!");
+				 }
+				 else
+				 {
 				  eventRef2.child('capacity').set(cap);
 				  eventRef.push({email: $scope.user});
 				  $scope.worked = "You have successfully joined the event!";
                   location.reload();
 				  $scope.clicked = true;
-				 }
-				 else
-				 {
-					alert("This Event is Up To Capacity. Please Join A Different Event");
-					
 				 }
                   
               }
