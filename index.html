@@ -85,15 +85,12 @@
 			if(localStorage.getItem("User") == null)
 				window.location = "sign-up.html";
 		}
-		function initialize() {
-		  geocoder = new google.maps.Geocoder();
-		  var mapOptions = {
-			zoom: 11,
-			center: pos
-		  }
-		  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-		  codeAddress();
-		  map.panTo(pos);
+		function expireEvents(){
+			var event = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/');
+			event.on('value', function(snapshot){
+			snapshot.forEach(function(messageSnapshot){
+			var endTime = messageSnapshot.val().end;
+			
 		}
 
 		function codeAddress() {
@@ -127,6 +124,17 @@
 		})
 		}
 		google.maps.event.addDomListener(window, 'load', initialize);
+		
+		function initialize() {
+		  geocoder = new google.maps.Geocoder();
+		  var mapOptions = {
+			zoom: 11,
+			center: pos
+		  }
+		  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+		  codeAddress();
+		  map.panTo(pos);
+		}
     </script>
   </head>
 

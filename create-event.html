@@ -59,8 +59,8 @@
 			  var underUser;
               $scope.createEvent = function() {
                   console.log($scope.eventdata);
-                  eventRef.push({attendees: [{}], eventcreator: $scope.user, date: $scope.eventdata.date.toString(), address: $scope.eventdata.address, capacity: $scope.eventdata.capacity, description: $scope.eventdata.description, start: $scope.eventdata.starttime.toString(), end: $scope.eventdata.endtime.toString(), name: $scope.eventdata.namedata});
-                  underUser.push({date: $scope.eventdata.date.toString(), address: $scope.eventdata.address, capacity: $scope.eventdata.capacity, description: $scope.eventdata.description, start: $scope.eventdata.starttime.toString(), end: $scope.eventdata.endtime.toString(), name: $scope.eventdata.namedata});
+                  eventRef.push({attendees: [{}], eventcreator: $scope.user, address: $scope.eventdata.address, capacity: $scope.eventdata.capacity, description: $scope.eventdata.description, start: $scope.eventdata.starttime.toString(), end: $scope.eventdata.endtime.toString(), name: $scope.eventdata.namedata});
+                  underUser.push({ address: $scope.eventdata.address, capacity: $scope.eventdata.capacity, description: $scope.eventdata.description, start: $scope.eventdata.starttime.toString(), end: $scope.eventdata.endtime.toString(), name: $scope.eventdata.namedata});
 				  window.location = "index.html";
               }
           }])
@@ -135,18 +135,14 @@
 			  <div class="form-group">
                 <label>Location</label>
                 <input class="form-control" placeholder="Enter text" ng-model = "eventdata.address">
+              </div>	
+			  <div class="form-group">
+                <label>Start</label>
+                <input class="form-control" type = "datetime-local" placeholder="Enter text" ng-model = "eventdata.starttime">
               </div>
 			  <div class="form-group">
-                <label>Date</label>
-                <input class="form-control" type = "date" placeholder="Enter text" ng-model = "eventdata.date">
-              </div> 	
-			  <div class="form-group">
-                <label>Start Time</label>
-                <input class="form-control" type = "time" placeholder="Enter text" ng-model = "eventdata.starttime">
-              </div>
-			  <div class="form-group">
-                <label>End Time</label>
-                <input class="form-control" type = "time" placeholder="Enter text" ng-model = "eventdata.endtime">
+                <label>End</label>
+                <input class="form-control" type = "datetime-local" placeholder="Enter text" ng-model = "eventdata.endtime">
 			  </div>
 			  <div class="form-group">
                 <label>Capacity</label>

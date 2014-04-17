@@ -119,8 +119,7 @@
                     <th>Name <i class="fa fa-sort"></i></th>
                     <th>Location <i class="fa fa-sort"></i></th>
 					<th>Description <i class="fa fa-sort"></i></th>
-                    <th>Date <i class="fa fa-sort"></i></th>
-                    <th>Start Time <i class="fa fa-sort"></i></th>
+					<th>Start Time <i class="fa fa-sort"></i></th>
 					<th>End Time <i class="fa fa-sort"></i></th>
 					<th>Capacity <i class="fa fa-sort"></i></th>
 					<th>Delete <i class="fa fa-sort"></i></th>
@@ -178,7 +177,6 @@
 				var name = messageSnapshot.val().name;
 				var description = messageSnapshot.val().description;
 				var capacity = messageSnapshot.val().capacity;
-				var date = messageSnapshot.val().date;
 				var startTime = messageSnapshot.val().start;
 				var endTime = messageSnapshot.val().end;
 				var et = messageSnapshot.val();
@@ -196,17 +194,15 @@
 				var cell5 = row.insertCell(4);
 				var cell6 = row.insertCell(5);
 				var cell7 = row.insertCell(6);
-				var cell8 = row.insertCell(7);
 				
 				// Add some text to the new cells:
 				cell1.innerHTML = name;
 				cell2.innerHTML = address;
 				cell3.innerHTML = description;
-				cell4.innerHTML = date;
-				cell5.innerHTML = startTime;
-				cell6.innerHTML = endTime;
-				cell7.innerHTML = capacity;
-				cell8.innerHTML = del;
+				cell4.innerHTML = startTime;
+				cell5.innerHTML = endTime;
+				cell6.innerHTML = capacity;
+				cell7.innerHTML = del;
 			})})}
 			
 	</script>
