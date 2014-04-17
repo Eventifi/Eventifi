@@ -14,20 +14,20 @@
     <!-- Add custom CSS here -->
     <link href="css/sb-admin.css" rel="stylesheet">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+	<script src="js/jquery-1.10.2.js"></script>
+    <script src="js/bootstrap.js"></script>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>
-    <script src="js/morris/chart-data-morris.js"></script>
     <script src="js/tablesorter/jquery.tablesorter.js"></script>
     <script src="js/tablesorter/tables.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.4/angular.min.js"></script>
     <script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.6/firebase.js'></script>
     <script type='text/javascript' src='https://cdn.firebase.com/js/simple-login/1.3.0/firebase-simple-login.js'></script>
-    <script src ="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.4/angular-cookies.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.4/angular-cookies.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
 	<script src="https://static.firebase.com/v0/firebase.js"></script>
 	    <!-- JavaScript -->
-    <script src="js/jquery-1.10.2.js"></script>
-    <script src="js/bootstrap.js"></script>
+    
       <script>
 	  function logOut() {
 		localStorage.clear();
@@ -142,7 +142,7 @@
 			  $scope.user = "not logged in";
               $scope.user = localStorage.getItem("User");
 			  console.log($scope.user);
-			  
+			 
 			  var userPage = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users');
 			  var realComb = null;
 			  userPage.once('value', function(snapshot){
@@ -156,6 +156,19 @@
 					}
 				})
 			  })
+			  $scope.deleteEvent = function(eventName) {
+					var underUser2 = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + realComb + '/eventsHosting/' + eventName);
+					console.log("works");
+					var r = confirm("Are You sure you want to delete the event?");
+					if (r==true)
+					  {
+					   underUser2.remove();
+					  }
+					else
+					  {
+						console.log('canceled delete');
+					  }
+				}
 		  }])
 		  var tableIt = function(underUser){
 			var table = document.getElementById("info");
@@ -168,7 +181,9 @@
 				var date = messageSnapshot.val().date;
 				var startTime = messageSnapshot.val().start;
 				var endTime = messageSnapshot.val().end;
-				var del = '<button class = "btn btn-defaul" ng-click = "deleteEvent()">' +  "x" + '</button>'
+				var et = messageSnapshot.val();
+				
+				var del = '<button class = "btn btn-defaul" ng-click = "deleteEvent(et)">' +  "Delete" + '</button>'
 				
 				// Create an empty <tr> element and add it to the 1st position of the table:
 				var row = table.insertRow(-1);
@@ -193,6 +208,7 @@
 				cell7.innerHTML = capacity;
 				cell8.innerHTML = del;
 			})})}
+			
 	</script>
   </body>
 </html>
