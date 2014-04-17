@@ -39,15 +39,29 @@
 		}
           var eventRef = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events');
           var eventApp = angular.module('eventApp',["ngCookies"]);
-          var test = {};
           eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {
               $scope.user = "not logged in";
               $scope.user = localStorage.getItem("User");
-              console.log($scope.user);
+			  console.log($scope.user);
+			  
+			  var userPage = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users');
+			  var realComb = null;
+			  userPage.once('value', function(snapshot){
+				snapshot.forEach(function(messageSnapshot){
+					var temp = messageSnapshot.name();
+					var emailD = messageSnapshot.val().email;
+					if ($scope.user == emailD){
+						realComb = temp;
+						underUser = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + realComb + '/eventsHosting');	
+					}
+				})
+			  })
+			  var underUser;
               $scope.createEvent = function() {
                   console.log($scope.eventdata);
-                  eventRef.push({attendees: [{}], eventcreator: $scope.user, date: $scope.eventdata.date.toString(), address: $scope.eventdata.address, capacity: $scope.eventdata.capacity, description: $scope.eventdata.description, start: $scope.eventdata.starttime.toString(), end: $scope.eventdata.endtime.toString(), name: $scope.eventdata.namedata})
-                  window.location = "index.html";
+                  eventRef.push({attendees: [{}], eventcreator: $scope.user, date: $scope.eventdata.date.toString(), address: $scope.eventdata.address, capacity: $scope.eventdata.capacity, description: $scope.eventdata.description, start: $scope.eventdata.starttime.toString(), end: $scope.eventdata.endtime.toString(), name: $scope.eventdata.namedata});
+                  underUser.push({date: $scope.eventdata.date.toString(), address: $scope.eventdata.address, capacity: $scope.eventdata.capacity, description: $scope.eventdata.description, start: $scope.eventdata.starttime.toString(), end: $scope.eventdata.endtime.toString(), name: $scope.eventdata.namedata});
+				  window.location = "index.html";
               }
           }])
 

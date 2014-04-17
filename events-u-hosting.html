@@ -14,14 +14,20 @@
     <!-- Add custom CSS here -->
     <link href="css/sb-admin.css" rel="stylesheet">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
-	
-    <!-- JavaScript -->
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>
+    <script src="js/morris/chart-data-morris.js"></script>
+    <script src="js/tablesorter/jquery.tablesorter.js"></script>
+    <script src="js/tablesorter/tables.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.4/angular.min.js"></script>
+    <script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.6/firebase.js'></script>
+    <script type='text/javascript' src='https://cdn.firebase.com/js/simple-login/1.3.0/firebase-simple-login.js'></script>
+    <script src ="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.4/angular-cookies.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
+	<script src="https://static.firebase.com/v0/firebase.js"></script>
+	    <!-- JavaScript -->
     <script src="js/jquery-1.10.2.js"></script>
     <script src="js/bootstrap.js"></script>
-	  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.4/angular.min.js"></script>
-      <script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.6/firebase.js'></script>
-      <script type='text/javascript' src='https://cdn.firebase.com/js/simple-login/1.3.0/firebase-simple-login.js'></script>
-      <script src ="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.4/angular-cookies.js"></script>
       <script>
 	  function logOut() {
 		localStorage.clear();
@@ -105,68 +111,22 @@
             </ol>
           </div>
         </div><!-- /.row -->
-<div class="col-lg-6">
+		<div class="">
             <div class="table-responsive">
-              <table class="table table-bordered table-hover table-striped tablesorter">
+              <table class="table table-bordered table-hover table-striped tablesorter" id="info">
                 <thead>
                   <tr>
                     <th>Name <i class="fa fa-sort"></i></th>
                     <th>Location <i class="fa fa-sort"></i></th>
+					<th>Description <i class="fa fa-sort"></i></th>
                     <th>Date <i class="fa fa-sort"></i></th>
-                    <th>Time <i class="fa fa-sort"></i></th>
+                    <th>Start Time <i class="fa fa-sort"></i></th>
+					<th>End Time <i class="fa fa-sort"></i></th>
 					<th>Capacity <i class="fa fa-sort"></i></th>
+					<th>Delete <i class="fa fa-sort"></i></th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>/index.html</td>
-                    <td>1265</td>
-                    <td>32.3%</td>
-                    <td>$321.33</td>
-					<td>40</td>
-                  </tr>
-                  <tr>
-                    <td>/about.html</td>
-                    <td>261</td>
-                    <td>33.3%</td>
-                    <td>$234.12</td>
-					<td>40</td>
-                  </tr>
-                  <tr>
-                    <td>/sales.html</td>
-                    <td>665</td>
-                    <td>21.3%</td>
-                    <td>$16.34</td>
-					<td>40</td>
-                  </tr>
-                  <tr>
-                    <td>/blog.html</td>
-                    <td>9516</td>
-                    <td>89.3%</td>
-                    <td>$1644.43</td>
-					<td>40</td>
-                  </tr>
-                  <tr>
-                    <td>/404.html</td>
-                    <td>23</td>
-                    <td>34.3%</td>
-                    <td>$23.52</td>
-					<td>40</td>
-                  </tr>
-                  <tr>
-                    <td>/services.html</td>
-                    <td>421</td>
-                    <td>60.3%</td>
-                    <td>$724.32</td>
-					<td>40</td>
-                  </tr>
-                  <tr>
-                    <td>/blog/post.html</td>
-                    <td>1233</td>
-                    <td>93.2%</td>
-                    <td>$126.34</td>
-					<td>40</td>
-                  </tr>
                 </tbody>
               </table>
             </div>
@@ -175,5 +135,64 @@
       </div><!-- /#page-wrapper -->
 
     </div><!-- /#wrapper -->
+	<script>
+		
+	      var eventApp = angular.module('eventApp',["ngCookies"]);
+          eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {
+			  $scope.user = "not logged in";
+              $scope.user = localStorage.getItem("User");
+			  console.log($scope.user);
+			  
+			  var userPage = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users');
+			  var realComb = null;
+			  userPage.once('value', function(snapshot){
+				snapshot.forEach(function(messageSnapshot){
+					var temp = messageSnapshot.name();
+					var emailD = messageSnapshot.val().email;
+					if ($scope.user == emailD){
+						realComb = temp;
+						var underUser = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + realComb + '/eventsHosting');
+						tableIt(underUser);
+					}
+				})
+			  })
+		  }])
+		  var tableIt = function(underUser){
+			var table = document.getElementById("info");
+			underUser.on('value', function(snapshot){
+			snapshot.forEach(function(messageSnapshot){
+				var address = messageSnapshot.val().address;
+				var name = messageSnapshot.val().name;
+				var description = messageSnapshot.val().description;
+				var capacity = messageSnapshot.val().capacity;
+				var date = messageSnapshot.val().date;
+				var startTime = messageSnapshot.val().start;
+				var endTime = messageSnapshot.val().end;
+				var del = '<button class = "btn btn-defaul" ng-click = "deleteEvent()">' +  "x" + '</button>'
+				
+				// Create an empty <tr> element and add it to the 1st position of the table:
+				var row = table.insertRow(-1);
+				
+				// Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+				var cell1 = row.insertCell(0);
+				var cell2 = row.insertCell(1);
+				var cell3 = row.insertCell(2);
+				var cell4 = row.insertCell(3);
+				var cell5 = row.insertCell(4);
+				var cell6 = row.insertCell(5);
+				var cell7 = row.insertCell(6);
+				var cell8 = row.insertCell(7);
+				
+				// Add some text to the new cells:
+				cell1.innerHTML = name;
+				cell2.innerHTML = address;
+				cell3.innerHTML = description;
+				cell4.innerHTML = date;
+				cell5.innerHTML = startTime;
+				cell6.innerHTML = endTime;
+				cell7.innerHTML = capacity;
+				cell8.innerHTML = del;
+			})})}
+	</script>
   </body>
 </html>
