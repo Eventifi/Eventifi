@@ -144,7 +144,6 @@
 			  console.log($scope.user);
 			 
 			  var userPage = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users');
-			  var realComb = null;
 			  userPage.once('value', function(snapshot){
 				snapshot.forEach(function(messageSnapshot){
 					var temp = messageSnapshot.name();
@@ -158,7 +157,10 @@
 							
 				
 			function deleteEvent(eventName) {
-					var underUser2 = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + realComb + '/eventsHosting/' + eventName + '/');
+					console.log(realComb);
+					console.log(eventName);
+					var underUser2 = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + realComb + '/eventsHosting/' + eventName);
+					var eventsList = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/' + eventName);
 					console.log("works" + realComb);
 					var r = confirm("Are You sure you want to delete the event?");
 					if (r==true)
@@ -174,7 +176,7 @@
 				var table = document.getElementById("info");
 				underUser.on('value', function(snapshot){
 				snapshot.forEach(function(messageSnapshot){
-				et = messageSnapshot.val();
+				et = messageSnapshot.name();
 				console.log(et);	
 				var address = messageSnapshot.val().address;
 				var name = messageSnapshot.val().name;
