@@ -1,6 +1,5 @@
 ![Image](https://raw.github.com/EventifyApp/eventify/master/readmepics/header.png)
 =======
-
 Eventify™ is a web and mobile application utilizing Google Maps to help bring people together.
 
 ![Image](https://raw.github.com/EventifyApp/eventify/master/readmepics/1.png)
