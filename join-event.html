@@ -53,9 +53,6 @@
 
 	</script>
 		<script>
-		var ID = "";
-		var userfid;
-		var userID;
 		function getQueryVariable(variable) {
 		var query = window.location.search.substring(1);
 		var vars = query.split('&');
@@ -72,29 +69,13 @@
 	var locations = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/' + queryId);
 	locations.on('value', function(snapshot){
 	var event = snapshot.val();
-	userID = event.eventcreator;
-	
-	var userRef = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/');
-		userRef.on('value', function (snapshot){
-		snapshot.forEach(function(messageSnapshot){
-			
-			if(messageSnapshot.val().email == userID)
-			{
-				userfid = messageSnapshot.name();
-			}
-		})
-	})
-	var contentString = '<a href="user.html?eventid='+ userfid + '">''</a>';
-	
 	$("#eventName").val(event.name);
-	$("#eventCrea").val(contentString);
+	$("#eventCrea").val(event.eventcreator);
 	$("#eventDesc").val(event.description);
-	$("#date").val(event.date);
 	$("#loc").val(event.address);
 	$("#startTime").val(event.start);
 	$("#endTime").val(event.end);
 	$("#capacity").val(event.capacity);
-	
 	var people = "";
 	var eventAtt = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/' + queryId + '/attendees');
 	eventAtt.on('value', function(snapshot){
@@ -103,6 +84,9 @@
 		})})
 	$("#attend").val(people);
 		})
+	
+
+		
 	
 	var eventRef = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/' + queryId + '/attendees');
 		var eventRef2 = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/' + queryId );
