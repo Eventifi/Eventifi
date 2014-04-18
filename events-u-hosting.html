@@ -154,14 +154,40 @@
 						tableIt(underUser);
 						}
 					})})}])
-							
+				
+				function deleteMaster(eventName){
+					var underUser3 = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + realComb);
+					var eventHost;
+					console.log(realComb);
+					underUser3.on('value', function(snapshot){
+						//console.log(snapshot.val().email);
+						console.log("failed again");
+					})
+					underUser3 = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + realComb + '/eventsHosting/' + eventName);
+					console.log("before");
+					var eventDes;
+					var eventNam;
+					underUser3.on('value', function(snapshot){
+						eventDes = snapshot.val().description;
+						eventNam = snapshot.val().name;
+					})
+					console.log(eventDes);
+					console.log(eventNam);
+					var eventsList = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events');
+					eventsList.once('value', function(snapshot){
+						snapshot.forEach(function(messageSnapshot){
+							var temp = messageSnapshot.val();
+							if (temp.eventcreator == eventHost && temp.description == eventDes && temp.name == eventNam){
+								messageSnapshot.remove();
+							}
+						})
+					})
+					//window.location = "events-u-hosting.html";
+					deleteEvent(eventName);
+				}
 				
 			function deleteEvent(eventName) {
-					console.log(realComb);
-					console.log(eventName);
 					var underUser2 = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + realComb + '/eventsHosting/' + eventName);
-					var eventsList = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/' + eventName);
-					console.log("works" + realComb);
 					var r = confirm("Are You sure you want to delete the event?");
 					if (r==true)
 					  {
@@ -186,7 +212,7 @@
 				var endTime = messageSnapshot.val().end;
 				
 				
-				var del = '<input type="button" value="Delete" class = "btn btn-defaul" onclick = "deleteEvent(et)" />';
+				var del = '<input type="button" value="Delete" class = "btn btn-defaul" onclick = "deleteMaster(et)" />';
 				
 				// Create an empty <tr> element and add it to the 1st position of the table:
 				var row = table.insertRow(-1);
