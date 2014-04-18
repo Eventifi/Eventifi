@@ -76,14 +76,16 @@
 	
 	var userRef = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/');
 		userRef.on('value', function (snapshot){
-		snapshot.forEach(function(messageSnapshot)
+		snapshot.forEach(function(messageSnapshot){
 			
 			if(messageSnapshot.val().email == userID)
 			{
 				userfid = messageSnapshot.name();
 			}
-		)})
+		})
+	})
 	var contentString = '<a href="user.html?eventid='+ userfid + '">''</a>';
+	
 	$("#eventName").val(event.name);
 	$("#eventCrea").val(contentString);
 	$("#eventDesc").val(event.description);
