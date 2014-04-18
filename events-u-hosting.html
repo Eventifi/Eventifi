@@ -29,6 +29,8 @@
 	    <!-- JavaScript -->
     
       <script>
+	  var et = null;
+	  var realComb = null;
 	  function logOut() {
 		localStorage.clear();
 		window.location = "sign-up.html";
@@ -156,7 +158,7 @@
 							
 				
 			function deleteEvent(eventName) {
-					var underUser2 = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + realComb + '/eventsHosting/' + eventName);
+					var underUser2 = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + realComb + '/eventsHosting/' + eventName + '/');
 					console.log("works" + realComb);
 					var r = confirm("Are You sure you want to delete the event?");
 					if (r==true)
@@ -172,7 +174,7 @@
 				var table = document.getElementById("info");
 				underUser.on('value', function(snapshot){
 				snapshot.forEach(function(messageSnapshot){
-				var et = messageSnapshot.val();
+				et = messageSnapshot.val();
 				console.log(et);	
 				var address = messageSnapshot.val().address;
 				var name = messageSnapshot.val().name;
