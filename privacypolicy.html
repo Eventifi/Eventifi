@@ -47,33 +47,8 @@
 
 
         })
-        var eventApp = angular.module('eventApp',['ngCookies']);
-        eventApp.controller('registerController', ['$scope', '$cookieStore', function($scope,$cookieStore) {
-            $scope.authinfo = {};
-            $scope.user = null;
-            $scope.doRegister = function(){
-                console.log('Email: ' + $scope.authinfo.email);
-                console.log('Password: ' + $scope.authinfo.password);
-                auth.createUser($scope.authinfo.email, $scope.authinfo.password, function(error, user) {
-                    if (!error)
-					{
-                        console.log('User Id: ' + user.id + ', Email: ' + user.email);
-                        var newUser = {email:$scope.authinfo.email, password:$scope.authinfo.password, name:$scope.authinfo.name, eventsHosting: [], eventsAttending: []};
-                        userRef.push(newUser)
-                        localStorage.setItem('User', (newUser.email));
-                        $scope.$apply();
-						window.location = "index.html";
-					}
-						else
-						{
-							$scope.redo = "Your passwords do not match. Please try again";
-						}
-							
-                });
+        
 
-            }
-        }]);
-		
         function initialize() {
             var mapOptions = {
                 zoom: 8,
@@ -107,7 +82,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="index.html"><img src="logo.png" width=134px height=43px></a>
+            <a href="index.html"><img src="logo.png" width=23%></a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -135,40 +110,17 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="text-center">Create an Account</h1>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h1 class="text-center">Privacy Policy</h1>
             </div>
             <div class="modal-body">
-                <form class="form col-md-12 center-block">
-                    <div class="form-group">
-                        <input type="text" class="form-control input-lg" ng-model = "authinfo.name" placeholder="Name">
-                    </div>
-                    <div class="form-group">
-                        <input type="email" class="form-control input-lg" placeholder="Email" ng-model = "authinfo.email">
-                    </div>
-                    <div class="form-group">
-                        <input type="password" class="form-control input-lg" placeholder="Password"  ng-model = "authinfo.password">
-                    </div>
-                    <div class="form-group">
-                    <input type="password" class="form-control input-lg" placeholder="Re-Enter Password" ng-model = "authinfo.repassword">
-                </div>
-					
-                    <div class="form-group">
-						<span id="registration_nofication">
-						By creating an account, you agree to Eventifi's
-						<a href="termsofservice.html">Terms of Service</a></span>
-						and 
-						<a href="privacypolicy.html">Privacy Policy</a></span>
-						
-						</span>
-                        <button class="btn btn-primary btn-lg btn-block" type="button" ng-click="doRegister()" ng-Disabled="!authinfo.email || !authinfo.password || !authinfo.name || !authinfo.repassword || authinfo.repassword != authinfo.password">Create Account</button>
-                        <span class="pull-right"><a href="#"></a></span><span><a href="help.html">Need help?</a></span>
-						
-                    </div>
-                </form>
+               <h3>insert pp here</h3>
+			   <p> When you create an account, make sure that you have entered data into all of the fields and that both passwords match.</p>
+
             </div>
             <div class="modal-footer">
                 <div class="col-md-12">
-                    <button class="btn" type = "button" onclick="javascript:window.location='sign-up.html'" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                    <button class="btn" type = "button" onclick="javascript:window.location='sign-up.html'" data-dismiss="modal" aria-hidden="true">Go Back to Sign In</button>
                 </div>
             </div>
         </div>

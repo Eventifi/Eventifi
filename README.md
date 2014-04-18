@@ -10,6 +10,6 @@ If you’re bored and don’t have anything to do, Eventify is for you! Want to 
 
 If you're new to a place, Eventify helps you find events near you that you can attend easily so you don't spend most of your time in that old, boring hotel room watching TV.
 
-Eventify was built by Sahith Malyala, Anuraag Yachamaneni, Shrey Gupta, and Colin Chen. 
+Eventify was built by Sahith Malyala, Anuraag Yachamaneni, Colin Chen, and Shrey Gupta. 
 
 We would like to thank Oak Chantosa, Gabe Boning, and Peter Andringa for helping us build this application!
