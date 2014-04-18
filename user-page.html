@@ -38,82 +38,7 @@
 			localStorage.clear();
 			window.location = "sign-up.html";
 		}
-		  
-	var eventRef = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/' + queryId + '/attendees');
-		var eventRef2 = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/' + queryId );
-
-		var eventApp = angular.module('eventApp',["ngCookies"]);
-		eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {
-			$scope.user = "not logged in";
-			$scope.user = localStorage.getItem("User");
-			var la = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + queryId);
-				  console.log(la);
-  				  la.on('value', function(snapshot){
-				  $scope.name = snapshot.val().email;
-				  console.log($scope.name);
-				  })
-			$scope.addFriend = function() {
-				  
-  				  var la = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + queryId);
-				  console.log(la);
-  				  la.on('value', function(snapshot){
-				  $scope.name = snapshot.val().email;
-				  console.log($scope.name);
-				  })
-				  var locations = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + queryId + '/Friends/');
-				  console.log(locations);
-				  if(locations == null)
-					{
-						la.push({Friends:[]});
-					}
-  				  var friends = false;
-				  locations.on('value', function(snapshot){
-				  var otherEmail = snapshot.val().email;
-				  console.log(otherEmail);
-				  snapshot.forEach(function(messageSnapshot){
-				  if($scope.user == messageSnapshot.val().email)
-					friends = true;
-				  })})
-				  var id;
-				  var locs = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/');
-				  locs.on('value', function(snapshot){
-				  snapshot.forEach(function(messageSnapshot){
-				  if($scope.user == messageSnapshot.val().email)
-				       id = messageSnapshot.name();
-				  })})
-				  var place = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + id);
-				  if(friends = false)
-				  {
-				      locations.push({Friends: $scope.user});
-					  place.push({Friends: otherEmail});
-				  }
-				  else
-				  {
-				     alert('Error! You are already friends');
-				  }
-				  
-              }
-		}]) 
-		  
-	function getQueryVariable(variable) {
-		var query = window.location.search.substring(1);
-		var vars = query.split('&');
-		for (var i = 0; i < vars.length; i++) {
-			var pair = vars[i].split('=');
-			if (decodeURIComponent(pair[0]) == variable) {
-				return decodeURIComponent(pair[1]);
-			}
-		}
-		console.log('Query variable %s not found', variable);
-		}
-		
-		var queryId = getQueryVariable("userid");
-		console.log(queryId);
-		var locations = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + queryId + '/eventsHosting/');
-		tableIt(locations);	
-			
-			
-		var tableIt = function(underUser){
+		  	var tableIt = function(underUser){
 				var table = document.getElementById("info");
 				underUser.on('value', function(snapshot){
 				snapshot.forEach(function(messageSnapshot){
@@ -187,6 +112,79 @@
 				cell6.innerHTML = capacity;
 				cell7.innerHTML = del;
 			})})}
+	var eventRef = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/' + queryId + '/attendees');
+		var eventRef2 = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/' + queryId );
+
+		var eventApp = angular.module('eventApp',["ngCookies"]);
+		eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {
+			$scope.user = "not logged in";
+			$scope.user = localStorage.getItem("User");
+			var la = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + queryId);
+				  console.log(la);
+  				  
+  				  la.on('value', function(snapshot){
+				  $scope.bob = snapshot.val().email;
+				  $scope.username = snapshot.val().name;
+				  console.log($scope.bob);
+				  })
+			$scope.addFriend = function() {
+				  
+  				  var la = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + queryId);
+   				  var locations = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + queryId + '/Friends/');
+				  if(locations == null)
+					{
+						la.push({Friends:[]});
+					}
+				  locations = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + queryId + '/Friends/');
+  				  var friends = false;
+  				  locations.on('value', function(snapshot){
+				  console.log(locations);
+				  var otherEmail = snapshot.val().email;
+				  console.log(otherEmail);
+				  snapshot.forEach(function(messageSnapshot){
+				  if($scope.user == messageSnapshot.val().email)
+					friends = true;
+				  })})
+				  var id;
+				  var locs = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/');
+				  locs.on('value', function(snapshot){
+				  snapshot.forEach(function(messageSnapshot){
+				  if($scope.user == messageSnapshot.val().email)
+				       id = messageSnapshot.name();
+				  })})
+				  var place = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + id);
+				  if(friends = false)
+				  {
+				      locations.push({Friends: $scope.user});
+					  place.push({Friends: otherEmail});
+				  }
+				  else
+				  {
+				     alert('Error! You are already friends');
+				  }
+				  
+              }
+		}]) 
+		  
+	function getQueryVariable(variable) {
+		var query = window.location.search.substring(1);
+		var vars = query.split('&');
+		for (var i = 0; i < vars.length; i++) {
+			var pair = vars[i].split('=');
+			if (decodeURIComponent(pair[0]) == variable) {
+				return decodeURIComponent(pair[1]);
+			}
+		}
+		console.log('Query variable %s not found', variable);
+		}
+		
+		var queryId = getQueryVariable("userid");
+		console.log(queryId);
+		var locations = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + queryId + '/eventsHosting/');
+		tableIt(locations);	
+			
+			
+	
 	
 	</script>
 	
@@ -246,8 +244,7 @@
             </ol>
           </div>
         </div><!-- /.row -->
-				<h3 class = "text-center"> Username </h3>
-			    {{name}} 
+				<h3 class = "text-center"> {{bob}} </h3>
 				<h3 class = "text-left">Friends</h3>
 			<div class = "col-lg-6">
 				<h3 class = "text-center">Events They Are Attending</h3>
