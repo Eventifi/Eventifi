@@ -38,18 +38,156 @@
 			localStorage.clear();
 			window.location = "sign-up.html";
 		}
-		  var eventRef = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events');
-		  var eventApp = angular.module('eventApp',["ngCookies"]);
-		  var test = {};
-		  eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {
-			  $scope.eventdata = {};
-	
-			  $scope.user = "not logged in";
-			  $scope.user = localStorage.getItem("User");
-			  console.log($scope.user);
-	
-		  }])
+		  
+	var eventRef = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/' + queryId + '/attendees');
+		var eventRef2 = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/' + queryId );
 
+		var eventApp = angular.module('eventApp',["ngCookies"]);
+		eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {
+			$scope.user = "not logged in";
+			$scope.user = localStorage.getItem("User");
+			var la = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + queryId);
+				  console.log(la);
+  				  la.on('value', function(snapshot){
+				  $scope.name = snapshot.val().email;
+				  console.log($scope.name);
+				  })
+			$scope.addFriend = function() {
+				  
+  				  var la = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + queryId);
+				  console.log(la);
+  				  la.on('value', function(snapshot){
+				  $scope.name = snapshot.val().email;
+				  console.log($scope.name);
+				  })
+				  var locations = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + queryId + '/Friends/');
+				  console.log(locations);
+				  if(locations == null)
+					{
+						la.push({Friends:[]});
+					}
+  				  var friends = false;
+				  locations.on('value', function(snapshot){
+				  var otherEmail = snapshot.val().email;
+				  console.log(otherEmail);
+				  snapshot.forEach(function(messageSnapshot){
+				  if($scope.user == messageSnapshot.val().email)
+					friends = true;
+				  })})
+				  var id;
+				  var locs = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/');
+				  locs.on('value', function(snapshot){
+				  snapshot.forEach(function(messageSnapshot){
+				  if($scope.user == messageSnapshot.val().email)
+				       id = messageSnapshot.name();
+				  })})
+				  var place = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + id);
+				  if(friends = false)
+				  {
+				      locations.push({Friends: $scope.user});
+					  place.push({Friends: otherEmail});
+				  }
+				  else
+				  {
+				     alert('Error! You are already friends');
+				  }
+				  
+              }
+		}]) 
+		  
+	function getQueryVariable(variable) {
+		var query = window.location.search.substring(1);
+		var vars = query.split('&');
+		for (var i = 0; i < vars.length; i++) {
+			var pair = vars[i].split('=');
+			if (decodeURIComponent(pair[0]) == variable) {
+				return decodeURIComponent(pair[1]);
+			}
+		}
+		console.log('Query variable %s not found', variable);
+		}
+		
+		var queryId = getQueryVariable("userid");
+		console.log(queryId);
+		var locations = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + queryId + '/eventsHosting/');
+		tableIt(locations);	
+			
+			
+		var tableIt = function(underUser){
+				var table = document.getElementById("info");
+				underUser.on('value', function(snapshot){
+				snapshot.forEach(function(messageSnapshot){
+				et = messageSnapshot.name();
+				console.log(et);	
+				var address = messageSnapshot.val().address;
+				var name = messageSnapshot.val().name;
+				var description = messageSnapshot.val().description;
+				var capacity = messageSnapshot.val().capacity;
+				var startTime = messageSnapshot.val().start;
+				var endTime = messageSnapshot.val().end;
+				
+				
+				var del = '<input type="button" value="Delete" class = "btn btn-defaul" onclick = "confused(et)" />';
+				
+				// Create an empty <tr> element and add it to the 1st position of the table:
+				var row = table.insertRow(-1);
+				
+				// Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+				var cell1 = row.insertCell(0);
+				var cell2 = row.insertCell(1);
+				var cell3 = row.insertCell(2);
+				var cell4 = row.insertCell(3);
+				var cell5 = row.insertCell(4);
+				var cell6 = row.insertCell(5);
+				var cell7 = row.insertCell(6);
+				
+				// Add some text to the new cells:
+				cell1.innerHTML = name;
+				cell2.innerHTML = address;
+				cell3.innerHTML = description;
+				cell4.innerHTML = startTime;
+				cell5.innerHTML = endTime;
+				cell6.innerHTML = capacity;
+				cell7.innerHTML = del;
+			})})}
+		var tableIt2 = function(underUser){
+				var table = document.getElementById("attending");
+				underUser.on('value', function(snapshot){
+				snapshot.forEach(function(messageSnapshot){
+				et = messageSnapshot.name();
+				console.log(et);	
+				var address = messageSnapshot.val().address;
+				var name = messageSnapshot.val().name;
+				var description = messageSnapshot.val().description;
+				var capacity = messageSnapshot.val().capacity;
+				var startTime = messageSnapshot.val().start;
+				var endTime = messageSnapshot.val().end;
+				
+				
+				var del = '<input type="button" value="Delete" class = "btn btn-defaul" onclick = "confused(et)" />';
+				
+				// Create an empty <tr> element and add it to the 1st position of the table:
+				var row = table.insertRow(-1);
+				
+				// Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+				var cell1 = row.insertCell(0);
+				var cell2 = row.insertCell(1);
+				var cell3 = row.insertCell(2);
+				var cell4 = row.insertCell(3);
+				var cell5 = row.insertCell(4);
+				var cell6 = row.insertCell(5);
+				var cell7 = row.insertCell(6);
+				
+				// Add some text to the new cells:
+				cell1.innerHTML = name;
+				cell2.innerHTML = address;
+				cell3.innerHTML = description;
+				cell4.innerHTML = startTime;
+				cell5.innerHTML = endTime;
+				cell6.innerHTML = capacity;
+				cell7.innerHTML = del;
+			})})}
+	
 	</script>
 	
   </head>
@@ -109,13 +247,47 @@
           </div>
         </div><!-- /.row -->
 				<h3 class = "text-center"> Username </h3>
-			
+			    {{name}} 
 				<h3 class = "text-left">Friends</h3>
 			<div class = "col-lg-6">
 				<h3 class = "text-center">Events They Are Attending</h3>
+				            <div class="table-responsive">
+              <table class="table table-bordered table-hover table-striped tablesorter" id="hosting">
+                <thead>
+                  <tr>
+                    <th>Name <i class="fa fa-sort"></i></th>
+                    <th>Location <i class="fa fa-sort"></i></th>
+					<th>Description <i class="fa fa-sort"></i></th>
+					<th>Start Time <i class="fa fa-sort"></i></th>
+					<th>End Time <i class="fa fa-sort"></i></th>
+					<th>Capacity <i class="fa fa-sort"></i></th>
+					<th>Delete <i class="fa fa-sort"></i></th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
 			</div>
 			<div class = "col-lg-6">
 				<h3 class = "text-center">Events They Are Hosting</h3>
+		    <div class="table-responsive">
+              <table class="table table-bordered table-hover table-striped tablesorter" id="attending">
+                <thead>
+                  <tr>
+                    <th>Name <i class="fa fa-sort"></i></th>
+                    <th>Location <i class="fa fa-sort"></i></th>
+					<th>Description <i class="fa fa-sort"></i></th>
+					<th>Start Time <i class="fa fa-sort"></i></th>
+					<th>End Time <i class="fa fa-sort"></i></th>
+					<th>Capacity <i class="fa fa-sort"></i></th>
+					<th>Delete <i class="fa fa-sort"></i></th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
 			</div>	
 			<div class="col-lg-12">
 			</div>
@@ -123,7 +295,7 @@
 			</div>
 			<div class="col-lg-12">
 			</div>
-				<button type = "submit" class = "btn btn-info" ng-disabled = "clicked == true" ng-click = "joinEvent()"> Add Friend!</button>
+				<button type = "submit" class = "btn btn-info btn-lg " ng-disabled = "clicked == true" ng-click = "addFriend()"> Add Friend!</button>
 		
     </div><!-- /#wrapper -->
 
