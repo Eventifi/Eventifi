@@ -151,12 +151,11 @@
 						realComb = temp;
 						var underUser = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + realComb + '/eventsHosting');
 						tableIt(underUser);
-					}
-				})
-			  })
+						}
+					})})}])
 							
-				$scope.deleteEvent = function(eventName) {
-					console.log("HI");
+				
+			function deleteEvent(eventName) {
 					var underUser2 = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + realComb + '/eventsHosting/' + eventName);
 					console.log("works" + realComb);
 					var r = confirm("Are You sure you want to delete the event?");
@@ -169,24 +168,21 @@
 						console.log('canceled delete');
 					  }
 				}
-				$scope.onD = function(){
-				console.log("DDDD");
-			}
-			
 			var tableIt = function(underUser){
 				var table = document.getElementById("info");
 				underUser.on('value', function(snapshot){
 				snapshot.forEach(function(messageSnapshot){
+				var et = messageSnapshot.val();
+				console.log(et);	
 				var address = messageSnapshot.val().address;
 				var name = messageSnapshot.val().name;
 				var description = messageSnapshot.val().description;
 				var capacity = messageSnapshot.val().capacity;
 				var startTime = messageSnapshot.val().start;
 				var endTime = messageSnapshot.val().end;
-				var et = messageSnapshot.name();
-				console.log(et);
 				
-				var del = '<input type="button" value="Delete" class = "btn btn-defaul" ng-click = "deleteEvent(et)" />';
+				
+				var del = '<input type="button" value="Delete" class = "btn btn-defaul" onclick = "deleteEvent(et)" />';
 				
 				// Create an empty <tr> element and add it to the 1st position of the table:
 				var row = table.insertRow(-1);
@@ -213,7 +209,7 @@
 				
 				
 				
-		  }])
+		  
 			
 	</script>
   </body>
