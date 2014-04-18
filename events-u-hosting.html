@@ -69,7 +69,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a href="index.html"><img src="logo.png" width=23%></a>
+          <a href="index.html"><img src="logo.png" width=134px height=43px></a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -135,7 +135,6 @@
 
     </div><!-- /#wrapper -->
 	<script>
-		
 	      var eventApp = angular.module('eventApp',["ngCookies"]);
           eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {
 			  $scope.user = "not logged in";
@@ -155,9 +154,11 @@
 					}
 				})
 			  })
-			  $scope.deleteEvent = function(eventName) {
+							
+				$scope.deleteEvent = function(eventName) {
+					console.log("HI");
 					var underUser2 = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + realComb + '/eventsHosting/' + eventName);
-					console.log("works");
+					console.log("works" + realComb);
 					var r = confirm("Are You sure you want to delete the event?");
 					if (r==true)
 					  {
@@ -168,20 +169,24 @@
 						console.log('canceled delete');
 					  }
 				}
-		  }])
-		  var tableIt = function(underUser){
-			var table = document.getElementById("info");
-			underUser.on('value', function(snapshot){
-			snapshot.forEach(function(messageSnapshot){
+				$scope.onD = function(){
+				console.log("DDDD");
+			}
+			
+			var tableIt = function(underUser){
+				var table = document.getElementById("info");
+				underUser.on('value', function(snapshot){
+				snapshot.forEach(function(messageSnapshot){
 				var address = messageSnapshot.val().address;
 				var name = messageSnapshot.val().name;
 				var description = messageSnapshot.val().description;
 				var capacity = messageSnapshot.val().capacity;
 				var startTime = messageSnapshot.val().start;
 				var endTime = messageSnapshot.val().end;
-				var et = messageSnapshot.val();
+				var et = messageSnapshot.name();
+				console.log(et);
 				
-				var del = '<button class = "btn btn-defaul" ng-click = "deleteEvent(et)">' +  "Delete" + '</button>'
+				var del = '<input type="button" value="Delete" class = "btn btn-defaul" ng-click = "deleteEvent(et)" />';
 				
 				// Create an empty <tr> element and add it to the 1st position of the table:
 				var row = table.insertRow(-1);
@@ -204,6 +209,11 @@
 				cell6.innerHTML = capacity;
 				cell7.innerHTML = del;
 			})})}
+				
+				
+				
+				
+		  }])
 			
 	</script>
   </body>
