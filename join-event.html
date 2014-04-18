@@ -71,6 +71,18 @@
 	var event = snapshot.val();
 	$("#eventName").val(event.name);
 	$("#eventCrea").val(event.eventcreator);
+	var forUser = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users');
+	forUser.on('value', function(snapshot){
+		snapshot.forEach(function(messageSnapshot){
+			var temp = messageSnapshot.val();
+			var qID;
+			if (event.eventcreator == temp.email){
+				qID = messageSnapshot.name();
+				document.getElementById('page').href = "user-page.html?userid=" + qID;
+				console.log(qID);
+			}
+		})
+	})
 	$("#eventDesc").val(event.description);
 	$("#loc").val(event.address);
 	$("#startTime").val(event.start);
@@ -194,7 +206,7 @@
               </div>
 			  <div class="form-group">
                 <label>Event Creator</label>
-                <input class="form-control" id="eventCrea" type="text" placeholder="" disabled>
+                <a id ="page" ><input class="form-control" id="eventCrea" type="text" placeholder="" disabled></a>
               </div>
 			  <div class="form-group">
                 <label>Event Description</label>
