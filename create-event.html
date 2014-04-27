@@ -58,10 +58,56 @@
 			  })
 			  var underUser;
               $scope.createEvent = function() {
-                  console.log($scope.eventdata);
-                  eventRef.push({attendees: [{}], eventcreator: $scope.user, address: $scope.eventdata.address, capacity: $scope.eventdata.capacity, description: $scope.eventdata.description, start: $scope.eventdata.starttime.toString(), end: $scope.eventdata.endtime.toString(), name: $scope.eventdata.namedata});
-                  underUser.push({ address: $scope.eventdata.address, capacity: $scope.eventdata.capacity, description: $scope.eventdata.description, start: $scope.eventdata.starttime.toString(), end: $scope.eventdata.endtime.toString(), name: $scope.eventdata.namedata});
-				  window.location = "index.html";
+                  //console.log($scope.eventdata);				  
+					var endTime = $scope.eventdata.endtime.toString();
+					var eYear = endTime.substring(11,15);	
+							
+					var dict = [];
+					dict["Jan"] = 0;	
+					dict["Feb"] = 1;
+					dict["Mar"] = 2;
+					dict["Apr"] = 3;
+					dict["May"] = 4;
+					dict["Jun"] = 5;
+					dict["Jul"] = 6;	
+					dict["Aug"] = 7;
+					dict["Sep"] = 8;
+					dict["Oct"] = 9;
+					dict["Nov"] = 10;
+					dict["Dec"] = 11;	
+					
+					var eMonth = dict[endTime.substring(4,7)];
+					var eDay = endTime.substring(8,10);
+					var eHour = endTime.substring(16,18);
+					var eMinute = endTime.substring(19,21);
+					var endD = new Date(eYear, eMonth, eDay, eHour, eMinute);
+					
+					var startTime = $scope.eventdata.starttime.toString();
+					var sYear = startTime.substring(11,15);						
+					var sMonth = dict[startTime.substring(4,7)];
+					var sDay = startTime.substring(8,10);
+					var sHour = startTime.substring(16,18);
+					var sMinute = startTime.substring(19,21);
+					var startD = new Date(sYear, sMonth, sDay, sHour, sMinute);	
+					
+					var d = new Date();
+					if (startD > d)
+					{
+						if (endD > startD)
+						{
+							eventRef.push({attendees: [{}], eventcreator: $scope.user, address: $scope.eventdata.address, capacity: $scope.eventdata.capacity, description: $scope.eventdata.description, start: $scope.eventdata.starttime.toString(), end: $scope.eventdata.endtime.toString(), name: $scope.eventdata.namedata});
+							underUser.push({ address: $scope.eventdata.address, capacity: $scope.eventdata.capacity, description: $scope.eventdata.description, start: $scope.eventdata.starttime.toString(), end: $scope.eventdata.endtime.toString(), name: $scope.eventdata.namedata});
+							window.location = "index.html";
+						}
+						else
+						{
+							alert("Your start date is after your end date- fix it!");
+						}
+					}	
+					else
+					{
+						alert("Your start date is set for the past- fix it!");
+					}
               }
           }])
 
