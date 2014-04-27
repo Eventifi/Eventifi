@@ -112,22 +112,20 @@
 				cell6.innerHTML = capacity;
 				cell7.innerHTML = del;
 			})})}
-	var eventRef = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/' + queryId + '/attendees');
-		var eventRef2 = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/' + queryId );
+	
 
 		var eventApp = angular.module('eventApp',["ngCookies"]);
 		eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {
 			$scope.user = "not logged in";
 			$scope.user = localStorage.getItem("User");
 			var la = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + queryId);
-				  console.log(la);
-  				  
-  				  la.on('value', function(snapshot){
-				  $scope.bob = snapshot.val().email;
-				  $scope.username = snapshot.val().name;
-				  console.log($scope.bob);
-				  })
-			$scope.addFriend = function() {
+		    console.log(la);
+   			la.on('value', function(snapshot){
+			$scope.bob = snapshot.val().email;
+			$scope.username = snapshot.val().name;
+			console.log($scope.bob);
+			})
+			/* $scope.addFriend = function() {
 				  
   				  var la = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + queryId);
    				  var locations = new Firebase('https://eventify.firebaseio.com/Eventify/0/Users/' + queryId + '/Friends/');
@@ -163,7 +161,7 @@
 				     alert('Error! You are already friends.');
 				  }
 				  
-              }
+              } */
 		}]) 
 		  
 	function getQueryVariable(variable) {

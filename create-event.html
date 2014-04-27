@@ -33,6 +33,61 @@
 		localStorage.clear();
 		window.location = "sign-up.html";
 	}
+	function expireEvents(){
+			var event = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/');
+			event.on('value', function(snapshot){
+				snapshot.forEach(function(messageSnapshot){
+					var event2 = messageSnapshot.name();
+					var fire = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/' + event2);
+					var endTime = messageSnapshot.val().end;
+					var eYear = endTime.substring(11,15);	
+							
+					var dict = [];
+					dict["Jan"] = 0;	
+					dict["Feb"] = 1;
+					dict["Mar"] = 2;
+					dict["Apr"] = 3;
+					dict["May"] = 4;
+					dict["Jun"] = 5;
+					dict["Jul"] = 6;	
+					dict["Aug"] = 7;
+					dict["Sep"] = 8;
+					dict["Oct"] = 9;
+					dict["Nov"] = 10;
+					dict["Dec"] = 11;	
+					
+					var eMonth = dict[endTime.substring(4,7)];
+					var eDay = endTime.substring(8,10);
+					var eHour = endTime.substring(16,18);
+					var eMinute = endTime.substring(19,21);
+					console.log("eyear " + eYear);
+					console.log("emonth " + eMonth);
+					console.log("eday " + eDay);
+					console.log("ehour " + eHour);
+					console.log("eminute " + eMinute);
+					
+					var d = new Date();
+					var year = d.getFullYear();
+					var month = d.getMonth();
+					var day = d.getDate();
+					var hour = d.getHours();
+					var minute = d.getMinutes();
+
+					
+					console.log("year " + year);
+					console.log("month " + month);
+					console.log("day " + day);
+					console.log("hour " + hour);
+					console.log("minute " + minute);
+					var curr = new Date(year, month, day, hour, minute);
+					var eve = new Date(eYear, eMonth, eDay, eHour, eMinute);
+					if (eve <= curr)
+					{
+						fire.remove();
+					}
+				})		
+			})
+		}
 		function redirection() {
 			if(localStorage.getItem("User") == null)
 				window.location = "sign-up.html";
@@ -114,7 +169,7 @@
       </script>
   </head>
 
-  <body  ng-app="eventApp"  ng-controller="registerController" onload="redirection()">
+  <body  ng-app="eventApp"  ng-controller="registerController" onload="redirection(); expireEvents();">
 
     <div id="wrapper">
 
