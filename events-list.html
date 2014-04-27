@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 	<link rel="shortcut icon" href="fav.ico">
-    <title>Eventify</title>
+    <title>Eventifi</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
@@ -28,11 +28,11 @@
 	  <script src ="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.4/angular-cookies.js"></script>
   <script>
   	function expireEvents(){
-			var event = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/');
+			var event = new Firebase('https://Eventifi.firebaseio.com/Eventifi/1/Events/');
 			event.on('value', function(snapshot){
 				snapshot.forEach(function(messageSnapshot){
 					var event2 = messageSnapshot.name();
-					var fire = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/' + event2);
+					var fire = new Firebase('https://Eventifi.firebaseio.com/Eventifi/1/Events/' + event2);
 					var endTime = messageSnapshot.val().end;
 					var eYear = endTime.substring(11,15);	
 							
@@ -86,7 +86,7 @@
 			localStorage.clear();
 			window.location = "sign-up.html";
 		}
-		  var eventRef = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events');
+		  var eventRef = new Firebase('https://Eventifi.firebaseio.com/Eventifi/1/Events');
 		  var eventApp = angular.module('eventApp',["ngCookies"]);
 		  var test = {};
 		  eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {
@@ -182,7 +182,7 @@
     </div><!-- /#wrapper -->
 			<script>
 		var table = document.getElementById("info");
-		var event = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events/');
+		var event = new Firebase('https://Eventifi.firebaseio.com/Eventifi/1/Events/');
 		event.on('value', function(snapshot){
 		snapshot.forEach(function(messageSnapshot){
 			var address = messageSnapshot.val().address;

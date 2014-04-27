@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 	<link rel="shortcut icon" href="fav.ico">
-    <title>Eventify</title>
+    <title>Eventifi</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
@@ -54,7 +54,7 @@
 
           var eventApp = angular.module('eventApp',["ngCookies"]);
           eventApp.controller('SignUpController', ['$scope', '$cookieStore',function($scope,$cookieStore) {
-              var eventRef = new Firebase('https://eventify.firebaseio.com');
+              var eventRef = new Firebase('https://Eventifi.firebaseio.com');
               var auth = new FirebaseSimpleLogin(eventRef, function(error, user) {
                   if (error) {
                       // an error occurred while attempting login

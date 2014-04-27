@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 	<link rel="shortcut icon" href="fav.ico">
-    <title>Eventify</title>
+    <title>Eventifi</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
@@ -33,7 +33,7 @@
 				if(localStorage.getItem("User") == null)
 					window.location = "sign-up.html";
 			}
-		  var eventRef = new Firebase('https://eventify.firebaseio.com/Eventify/1/Events');
+		  var eventRef = new Firebase('https://Eventifi.firebaseio.com/Eventifi/1/Events');
 		  var eventApp = angular.module('eventApp',["ngCookies"]);
 		  var test = {};
 		  eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {
