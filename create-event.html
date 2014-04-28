@@ -37,14 +37,14 @@
 			if(localStorage.getItem("User") == null)
 				window.location = "sign-in.html";
 		}
-          var eventRef = new Firebase('https://Eventifi.firebaseio.com/Eventifi/1/Events');
+          var eventRef = new Firebase('https://eventified.firebaseio.com/Eventifi/1/Events');
           var eventApp = angular.module('eventApp',["ngCookies"]);
           eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {
               $scope.user = "not logged in";
               $scope.user = localStorage.getItem("User");
 			  console.log($scope.user);
 			  
-			  var userPage = new Firebase('https://Eventifi.firebaseio.com/Eventifi/0/Users');
+			  var userPage = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users');
 			  var realComb = null;
 			  userPage.once('value', function(snapshot){
 				snapshot.forEach(function(messageSnapshot){
@@ -52,7 +52,7 @@
 					var emailD = messageSnapshot.val().email;
 					if ($scope.user == emailD){
 						realComb = temp;
-						underUser = new Firebase('https://Eventifi.firebaseio.com/Eventifi/0/Users/' + realComb + '/eventsHosting');	
+						underUser = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + realComb + '/eventsHosting');	
 					}
 				})
 			  })

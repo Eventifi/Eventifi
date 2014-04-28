@@ -39,7 +39,7 @@
 			localStorage.clear();
 			window.location = "sign-in.html";
 		}
-		  var eventRef = new Firebase('https://Eventifi.firebaseio.com/Eventifi/1/Events');
+		  var eventRef = new Firebase('https://eventified.firebaseio.com/Eventifi/1/Events');
 		  var eventApp = angular.module('eventApp',["ngCookies"]);
 		  var test = {};
 		  eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {
@@ -66,12 +66,12 @@
 	}
 	var queryId = getQueryVariable("eventid");
 	console.log(queryId);
-	var locations = new Firebase('https://Eventifi.firebaseio.com/Eventifi/1/Events/' + queryId);
+	var locations = new Firebase('https://eventified.firebaseio.com/Eventifi/1/Events/' + queryId);
 	locations.on('value', function(snapshot){
 	var event = snapshot.val();
 	$("#eventName").val(event.name);
 	$("#eventCrea").val(event.eventcreator);
-	var forUser = new Firebase('https://Eventifi.firebaseio.com/Eventifi/0/Users');
+	var forUser = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users');
 	forUser.on('value', function(snapshot){
 		snapshot.forEach(function(messageSnapshot){
 			var temp = messageSnapshot.val();
@@ -89,7 +89,7 @@
 	$("#endTime").val(event.end);
 	$("#capacity").val(event.capacity);
 	var people = "";
-	var eventAtt = new Firebase('https://Eventifi.firebaseio.com/Eventifi/1/Events/' + queryId + '/attendees');
+	var eventAtt = new Firebase('https://eventified.firebaseio.com/Eventifi/1/Events/' + queryId + '/attendees');
 	eventAtt.on('value', function(snapshot){
 	snapshot.forEach(function(messageSnapshot){
 		people += messageSnapshot.val().email + "; ";
@@ -100,8 +100,8 @@
 
 		
 	
-	var eventRef = new Firebase('https://Eventifi.firebaseio.com/Eventifi/1/Events/' + queryId + '/attendees');
-		var eventRef2 = new Firebase('https://Eventifi.firebaseio.com/Eventifi/1/Events/' + queryId );
+	var eventRef = new Firebase('https://eventified.firebaseio.com/Eventifi/1/Events/' + queryId + '/attendees');
+		var eventRef2 = new Firebase('https://eventified.firebaseio.com/Eventifi/1/Events/' + queryId );
 
 		var eventApp = angular.module('eventApp',["ngCookies"]);
 		eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {
@@ -110,14 +110,14 @@
 			$scope.joinEvent = function() {
 				  
 				  var cap = 0;			  
-				  var locations = new Firebase('https://Eventifi.firebaseio.com/Eventifi/1/Events/' + queryId);
+				  var locations = new Firebase('https://eventified.firebaseio.com/Eventifi/1/Events/' + queryId);
 				  locations.on('value', function(snapshot){
 	              var event = snapshot.val();
 				  $("#capacity").val(event.capacity);
 				   cap = event.capacity - 1;
 				  })
 				  var joined = false;
-				  var ent = new Firebase('https://Eventifi.firebaseio.com/Eventifi/1/Events/' + queryId + '/attendees');
+				  var ent = new Firebase('https://eventified.firebaseio.com/Eventifi/1/Events/' + queryId + '/attendees');
 				  ent.on('value', function(snapshot){
 				  snapshot.forEach(function(messageSnapshot){
 				  if($scope.user == messageSnapshot.val().email)

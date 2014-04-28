@@ -36,11 +36,11 @@
 		window.location = "sign-in.html";
 	}
 		function expireEvents(){
-			var event = new Firebase('https://Eventifi.firebaseio.com/Eventifi/1/Events/');
+			var event = new Firebase('https://eventified.firebaseio.com/Eventifi/1/Events/');
 			event.on('value', function(snapshot){
 				snapshot.forEach(function(messageSnapshot){
 					var event2 = messageSnapshot.name();
-					var fire = new Firebase('https://Eventifi.firebaseio.com/Eventifi/1/Events/' + event2);
+					var fire = new Firebase('https://eventified.firebaseio.com/Eventifi/1/Events/' + event2);
 					var endTime = messageSnapshot.val().end;
 					var eYear = endTime.substring(11,15);	
 							
@@ -90,7 +90,7 @@
 				})		
 			})
 		}
-          var eventRef = new Firebase('https://Eventifi.firebaseio.com/Eventifi/1/Events');
+          var eventRef = new Firebase('https://eventified.firebaseio.com/Eventifi/1/Events');
           var eventApp = angular.module('eventApp',["ngCookies"]);
           var test = {};
           eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {
@@ -117,19 +117,19 @@
               $scope.user = localStorage.getItem("User");
 			  console.log($scope.user);
 			 
-			  var userPage = new Firebase('https://Eventifi.firebaseio.com/Eventifi/0/Users');
+			  var userPage = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users');
 			  userPage.once('value', function(snapshot){
 				snapshot.forEach(function(messageSnapshot){
 					var temp = messageSnapshot.name();
 					var emailD = messageSnapshot.val().email;
 					if ($scope.user == emailD){
 						realComb = temp;
-						var underUser = new Firebase('https://Eventifi.firebaseio.com/Eventifi/0/Users/' + realComb + '/eventsHosting');
+						var underUser = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + realComb + '/eventsHosting');
 						tableIt(underUser);
 						}
 					})})}])
 				function confused(eventName){
-					var underUser3 = new Firebase('https://Eventifi.firebaseio.com/Eventifi/0/Users/' + realComb);
+					var underUser3 = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + realComb);
 					var eventHost;
 					underUser3.on('value', function(snapshot){
 						eventHost = snapshot.val().email;
@@ -137,20 +137,20 @@
 					})
 				}
 				function deleteMaster(eventName, eventHost){
-					var underUser4 = new Firebase('https://Eventifi.firebaseio.com/Eventifi/0/Users/' + realComb + '/eventsHosting/' + eventName);
+					var underUser4 = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + realComb + '/eventsHosting/' + eventName);
 					var eventDes;
 					var eventNam;
 					underUser4.on('value', function(snapshot){
 						eventDes = snapshot.val().description;
 						eventNam = snapshot.val().name;
 					})
-					var eventsList = new Firebase('https://Eventifi.firebaseio.com/Eventifi/1/Events');
+					var eventsList = new Firebase('https://eventified.firebaseio.com/Eventifi/1/Events');
 					eventsList.once('value', function(snapshot){
 						snapshot.forEach(function(messageSnapshot){
 							var temp = messageSnapshot.val();
 							var del;
 							if (temp.eventcreator == eventHost && temp.description == eventDes && temp.name == eventNam){
-								del = new Firebase('https://Eventifi.firebaseio.com/Eventifi/1/Events/' + messageSnapshot.name());
+								del = new Firebase('https://eventified.firebaseio.com/Eventifi/1/Events/' + messageSnapshot.name());
 								deleteEvent(eventName, del);
 							}
 						})
@@ -158,7 +158,7 @@
 				}
 				
 			function deleteEvent(eventName, del) {
-					var underUser2 = new Firebase('https://Eventifi.firebaseio.com/Eventifi/0/Users/' + realComb + '/eventsHosting/' + eventName);
+					var underUser2 = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + realComb + '/eventsHosting/' + eventName);
 					var r = confirm("Are you sure you want to delete the event?");
 					if (r==true)
 					  {

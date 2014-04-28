@@ -33,7 +33,7 @@
 				if(localStorage.getItem("User") == null)
 					window.location = "sign-in.html";
 			}
-		  var eventRef = new Firebase('https://Eventifi.firebaseio.com/Eventifi/1/Events');
+		  var eventRef = new Firebase('https://eventified.firebaseio.com/Eventifi/1/Events');
 		  var eventApp = angular.module('eventApp',["ngCookies"]);
 		  var test = {};
 		  eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {

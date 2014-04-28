@@ -118,7 +118,7 @@
 		eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {
 			$scope.user = "not logged in";
 			$scope.user = localStorage.getItem("User");
-			var la = new Firebase('https://Eventifi.firebaseio.com/Eventifi/0/Users/' + queryId);
+			var la = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + queryId);
 		    console.log(la);
    			la.on('value', function(snapshot){
 			$scope.bob = snapshot.val().email;
@@ -127,13 +127,13 @@
 			})
 			/* $scope.addFriend = function() {
 				  
-  				  var la = new Firebase('https://Eventifi.firebaseio.com/Eventifi/0/Users/' + queryId);
-   				  var locations = new Firebase('https://Eventifi.firebaseio.com/Eventifi/0/Users/' + queryId + '/Friends/');
+  				  var la = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + queryId);
+   				  var locations = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + queryId + '/Friends/');
 				  if(locations == null)
 					{
 						la.push({Friends:[]});
 					}
-				  locations = new Firebase('https://Eventifi.firebaseio.com/Eventifi/0/Users/' + queryId + '/Friends/');
+				  locations = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + queryId + '/Friends/');
   				  var friends = false;
   				  locations.on('value', function(snapshot){
 				  console.log(locations);
@@ -144,13 +144,13 @@
 					friends = true;
 				  })})
 				  var id;
-				  var locs = new Firebase('https://Eventifi.firebaseio.com/Eventifi/0/Users/');
+				  var locs = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/');
 				  locs.on('value', function(snapshot){
 				  snapshot.forEach(function(messageSnapshot){
 				  if($scope.user == messageSnapshot.val().email)
 				       id = messageSnapshot.name();
 				  })})
-				  var place = new Firebase('https://Eventifi.firebaseio.com/Eventifi/0/Users/' + id);
+				  var place = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + id);
 				  if(friends = false)
 				  {
 				      locations.push({Friends: $scope.user});
@@ -178,7 +178,7 @@
 		
 		var queryId = getQueryVariable("userid");
 		console.log(queryId);
-		var locations = new Firebase('https://Eventifi.firebaseio.com/Eventifi/0/Users/' + queryId + '/eventsHosting/');
+		var locations = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + queryId + '/eventsHosting/');
 		tableIt(locations);	
 			
 			
