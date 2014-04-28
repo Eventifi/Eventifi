@@ -33,7 +33,7 @@
 	  var realComb = null;
 	  function logOut() {
 		localStorage.clear();
-		window.location = "sign-up.html";
+		window.location = "sign-in.html";
 	}
 		function expireEvents(){
 			var event = new Firebase('https://Eventifi.firebaseio.com/Eventifi/1/Events/');
@@ -106,7 +106,7 @@
           }])
 		  function redirection() {
 			if(localStorage.getItem("User") == null)
-				window.location = "sign-up.html";
+				window.location = "sign-in.html";
 		}
 
       </script>
@@ -251,7 +251,7 @@
                 <li><a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge">7</span></a></li>
                 <li><a href="#"><i class="fa fa-gear"></i> Settings</a></li>
                 <li class="divider"></li>
-                <li><a href="sign-up.html" onclick = "logOut()" ><i class="fa fa-power-off"></i> Log Out</a></li>
+                <li><a href="sign-in.html" onclick = "logOut()" ><i class="fa fa-power-off"></i> Log Out</a></li>
               </ul>
             </li>
           </ul>
