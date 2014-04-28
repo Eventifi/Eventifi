@@ -54,7 +54,7 @@
             $scope.doRegister = function(){
                 console.log('Email: ' + $scope.authinfo.email);
                 console.log('Password: ' + $scope.authinfo.password);
-                auth.createUser($scope.authinfo.email, $scope.authinfo.password, function(error, user) {
+                /*auth.createUser($scope.authinfo.email, $scope.authinfo.password, function(error, user) {
                     if (!error)
 					{
                         console.log('User Id: ' + user.id + ', Email: ' + user.email);
@@ -69,6 +69,13 @@
 							$scope.redo = "Your passwords do not match. Please try again";
 						}
 							
+                });*/
+                var param = $scope.authinfo;
+                param['act'] = 'register';
+                $.post("firebaseaction.php", param, function(resp) {
+                    console.log(resp);
+                    localStorage.setItem('User', params.email);
+                    location.href = "index.html"; 
                 });
 
             }
