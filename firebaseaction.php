@@ -70,9 +70,6 @@ if($act == "register") {
         "email"=>$_POST['email'],
         "password"=>sha1($_POST['password'])
     )));
-} elseif($act == "getusers") {
-    $users = $firebase->get("Eventifi/0/Users");
-    print_r($users);
 } elseif($act == "sha") {
     die(sha1($_REQUEST['password']));
 }
