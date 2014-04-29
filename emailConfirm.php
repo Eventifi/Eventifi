@@ -9,6 +9,10 @@ if(isset($_GET['tok'])) {
     $message = "Invalid token. Make sure you have clicked on the full link.";
     foreach($users as $userID=>$user) {
         if(isset($user->confirmToken) && trim($user->confirmToken) == $tok) {
+            if(isset($_GET['unconfirm'])) {
+                $user->emailConfirmed = false;
+                die();
+            }
             if(isset($user->emailConfirmed) && $user->emailConfirmed == true) {
                 $message = "You have already confirmed this address.";
                 break;

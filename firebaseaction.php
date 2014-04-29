@@ -36,15 +36,19 @@ function sendEmail($email, $title, $content, $messageattrs) {
     echo "Sending: $message";
     mail($email, $title, $message, "From: noreply@eventifi.co");
 }
-
+function sendTempEmail($data) {
+    $req = file_get_contents("http://eventifiapp.comeze.com/eventifi_email_send.php?".http_build_query($data));
+}
 function sendEmailConfirm($user) {
-    sendEmail($user['email'], "Eventifi Email Confirmation", 
-        "<p>Hello there, someone by the name of {{name}} created an account on Eventifi with this email address. To confirm this registration, click on the following link:<br/><center><button onclick=\"location.href='{{url}}'\" style='font-size:32px'>Confirm</button></center>",
-        array(
-            "{{name}}"=>$user['name'],
-            "{{url}}"=>"http://www.eventifi.co/emailConfirm.php?tok=".$user['confirmToken']
-        )
-    );
+    sendTempEmail(array(
+        "email"=>$user['email'], 
+        "title"=>"Eventifi Email Confirmation", 
+        "content"=>"<p>Hello there, someone by the name of {{name}} created an account on Eventifi with this email address. To confirm this registration, click on the following link:<br/><center><button onclick=\"location.href='{{url}}'\" style='font-size:32px'>Confirm</button></center>",
+        
+            "name"=>$user['name'],
+            "tok"=>$user['confirmToken']
+        
+    ));
 }
 
 $act = (isset($_POST['act']) ? $_POST['act'] : $_GET['act']);
@@ -59,7 +63,7 @@ if($act == "register") {
         "confirmToken"=>$pwtoken,
         "emailConfirmed"=>false
     );
-    print_r($user);
+    //print_r($user);
     // Add to the local user DB
     $push = $firebase->push("Eventifi/0/Users", $user);
     // Add to the remote auth DB
