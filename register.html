@@ -70,9 +70,9 @@
 						}
 							
                 });*/
-                var param = $scope.authinfo;
-                param['act'] = 'register';
-                $.post("firebaseaction.php", param, function(resp) {
+                var params = $scope.authinfo;
+                params['act'] = 'register';
+                $.post("firebaseaction.php", params, function(resp) {
                     console.log(resp);
                     localStorage.setItem('User', params.email);
                     //location.href = "index.html"; 
