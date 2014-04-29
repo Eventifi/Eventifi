@@ -52,8 +52,8 @@ if($act == "register") {
         "email"=>$_POST['email'],
         "name"=>$_POST['name'],
         "password"=>sha1($_POST['password']),
-        "eventsHosting"=>[],
-        "eventsAttending"=>[],
+        "eventsHosting"=>array(),
+        "eventsAttending"=>array(),
         "confirmToken"=>$pwtoken,
         "emailConfirmed"=>false
     );
