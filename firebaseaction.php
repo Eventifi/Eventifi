@@ -52,7 +52,6 @@ function sendEmail($email, $title, $content, $messageattrs) {
     $message = str_replace("{{content}}", $content, $emailTemplate);
     $message = str_replace("{{title}}", $title, $message);
     $message = str_replace(array_keys($messageattrs), array_values($messageattrs), $message);
-    echo "Sending: $message";
     sendmail($email, $title, $message, "email-confirm@noreply.eventifi.co", "");
 }
 function sendTempEmail($data) {
@@ -112,7 +111,7 @@ if($act == "register") {
         "password"=>$user['password']
     ));
     sendEmailConfirm($user);
-    die(json_encode(array("success"=>array("code"=>"VERIFY", "message"=>"You need to verify your email address. Click the link in the confirmation message that has been sent."))));
+    die(json_encode(array("success"=>array("code"=>"VERIFY", "message"=>"Registration successful. You need to verify your email address before you can log in. Click the link in the confirmation message that has been sent."))));
 } elseif($act == "auth") {
     $user = getUser(array("email"=>$_POST['email']));
     if($user == false) {
