@@ -151,10 +151,10 @@
 			//console.log(results);
 			if (status == google.maps.GeocoderStatus.OK) {
 			//console.log(messageSnapshot.val());
-			var contentString = '<a href="join-event.html?eventid='+ messageSnapshot.name() + '">' + messageSnapshot.val().name + '</a>';
+			var contentString = '<a href="join-event.html?eventid='+ messageSnapshot.name() + '">' + escape(messageSnapshot.val().name) + '</a>';
 
 			  var infowindow = new google.maps.InfoWindow({
-				  content: contentString
+				  content: escape(contentString)
 			  });
 
 			  var marker = new google.maps.Marker({
