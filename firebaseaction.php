@@ -1,4 +1,5 @@
 <?php
+session_start();
 define('MAILGUN_SECRET_KEY', $_ENV['MAILGUN_SECRET']);
 if(isset($_GET['debug'])) {
 error_reporting(E_ALL);
@@ -125,7 +126,7 @@ if($act == "register") {
         "email"=>$_POST['email'],
         "password"=>sha1($_POST['password'])
     )));
-    $user = getuser($_POST['email']);
+    return $auth;
 } elseif($act == "sha") {
     die(sha1($_REQUEST['password']));
 }
