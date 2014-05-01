@@ -50,11 +50,12 @@ curl_close($ch);
 function sendEmail($email, $title, $content, $messageattrs) {
     global $emailTemplate;
     $message = str_replace("{{content}}", $content, $emailTemplate);
+    $message = str_replace("{{title}}", $title, $message);
     $message = str_replace(array_keys($messageattrs), array_values($messageattrs), $message);
     echo "Sending: $message";
     $headers  = 'MIME-Version: 1.0' . "\r\n";
     $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-    sendmail($email, $title, $message, $headers."From: noreply@eventifi.co");
+    sendmail($email, $title, $message, $headers."From: email-confirm@noreply.eventifi.co");
 }
 function sendTempEmail($data) {
     $req = file_get_contents("http://eventifiapp.comeze.com/eventifi_email_send.php?".http_build_query($data));
