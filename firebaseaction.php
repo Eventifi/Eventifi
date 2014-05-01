@@ -75,7 +75,7 @@ function getUser($info) {
     $users = $firebase->get("Eventifi/0/Users");
     $users = json_decode($users);
     foreach($users as $uid=>$user) {
-        foreach($info as $field=>inf) {
+        foreach($info as $field=>$inf) {
             if($user->$field == $inf) {
                 $user->userid = $uid;
                 return $user;
@@ -101,7 +101,7 @@ if($act == "register") {
     // Do they exist already?
     $dup = getUser(array("email"=>$user['email']));
     if($dup != false) {
-        die(json_encode(array("error"=>"That user already exists."));
+        die(json_encode(array("error"=>"That user already exists.")));
     }
     //print_r($user);
     // Add to the local user DB
@@ -117,7 +117,7 @@ if($act == "register") {
     $user = getUser(array("email"=>$_POST['email']));
     if($user == false) {
         // They don't exist
-        die(json_encode(array("error"=>array("code"=>"ERROR", "message"=>"Invalid username or password.")));
+        die(json_encode(array("error"=>array("code"=>"ERROR", "message"=>"Invalid username or password."))));
     }
     if(!isset($user->emailConfirmed) || !$user->emailConfirmed) {
         die(json_encode(array("error"=>array("code"=>"VERIFY", "message"=>"You need to verify your email address at. Click the link in the confirmation message that has been sent."))));
