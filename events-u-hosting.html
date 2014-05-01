@@ -201,9 +201,9 @@
 				var cell7 = row.insertCell(6);
 				
 				// Add some text to the new cells:
-				cell1.innerHTML = name;
-				cell2.innerHTML = address;
-				cell3.innerHTML = description;
+				cell1.innerHTML = escape(name);
+				cell2.innerHTML = escape(address);
+				cell3.innerHTML = escape(description);
 				cell4.innerHTML = startTime;
 				cell5.innerHTML = endTime;
 				cell6.innerHTML = capacity;
@@ -288,7 +288,7 @@
               </table>
             </div>
           </div>
-        </div><!-- /.ro
+        </div>
       </div><!-- /#page-wrapper -->
 
     </div><!-- /#wrapper -->
