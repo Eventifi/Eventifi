@@ -78,8 +78,17 @@
                 params['act'] = 'register';
                 $.post("firebaseaction.php", params, function(resp) {
                     console.log(resp);
+                    d = JSON.parse(resp);
+                    if(!!d && !!d.error) {
+                        $("h4").html(d.error.message);
+                        throw d.error.code+": "+d.error.message;
+                    } else if(!!d && !!d.success) {
+                        $("h4").html("<a href='sign-in.html'>"+d.success.message+"</a>");
+                        console.log(d.success.code+" "+d.success.message);
+                    } else {
                     localStorage.setItem('User', params.email);
                     location.href = "index.html"; 
+                    }
                 });
 
             }
@@ -165,6 +174,7 @@
 					
                     <div class="form-group">
 						<span id="registration_nofication">
+                        <h4></h4>
 						<p>By creating an account, you agree to Eventifi's
 						<a href="terms-of-service.html">Terms of Service</a></span>
 						and
