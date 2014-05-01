@@ -83,6 +83,7 @@
                         console.log(resp);
                         try { d = JSON.parse(resp); } catch(e) {
                             $("h4.text-center.ng-binding").html("An error occurred. Please try again.");
+                            throw e;
                         }
                         if(!!d && !!d.error) {
                             $("h4.text-center.ng-binding").html(d.error.message);
@@ -92,7 +93,7 @@
                             localStorage.setItem('auth', resp);
                             location.href = "index.html";
                         }
-                    });
+                    }, 'text');
                 }
           }]);
 
