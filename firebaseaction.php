@@ -1,4 +1,4 @@
-<?php error_reporting(E_ALL);ini_set('display_errors',1);ini_set('log_errors','On');
+<?php
 define('MAILGUN_SECRET_KEY', $_ENV['MAILGUN_SECRET']);
 if(isset($_GET['debug'])) {
 error_reporting(E_ALL);
@@ -100,7 +100,7 @@ if($act == "register") {
     // Do they exist already?
     $dup = getUser(array("email"=>$user['email']));
     if($dup != false) {
-        die(json_encode(array("error"=>"That user already exists.")));
+        die(json_encode(array("error"=>array("code"=>"ERROR", "message"=>"That user already exists."))));
     }
     //print_r($user);
     // Add to the local user DB

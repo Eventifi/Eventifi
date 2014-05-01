@@ -84,6 +84,9 @@
                         throw d.error.code+": "+d.error.message;
                     } else if(!!d && !!d.success) {
                         $("h4").html("<a href='sign-in.html'>"+d.success.message+"</a>");
+                        $("form>div.form-group").hide();
+                        $("form>div.form-group:last-child").show();
+                        $("form>div.form-group>button,#registration-nofication").hide()
                         console.log(d.success.code+" "+d.success.message);
                     } else {
                     localStorage.setItem('User', params.email);
