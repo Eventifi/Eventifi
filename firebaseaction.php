@@ -126,7 +126,7 @@ if($act == "register") {
         "email"=>$_POST['email'],
         "password"=>sha1($_POST['password'])
     )));
-    return $auth;
+    die($auth);
 } elseif($act == "sha") {
     die(sha1($_REQUEST['password']));
 }
