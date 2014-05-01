@@ -25,6 +25,27 @@ if(isset($_GET['tok'])) {
         }
     }
 }
+if(isset($_GET['img'])) {
+    error_reporting(0);
+    $tok = trim($_GET['img']);
+    $usersJSON = $firebase->get("Eventifi/0/Users");
+    $users = json_decode($usersJSON);
+    $message = "Invalid token. Make sure you have clicked on the full link.";
+    foreach($users as $userID=>$user) {
+        if(isset($user->confirmToken) && trim($user->confirmToken) == $tok) {
+            if(isset($_GET['unconfirm'])) {
+                $user->emailSeen = false;
+            } else {
+                $firebase->update("Eventifi/0/Users/".$userID, array(
+                    "emailSeen"=>true
+                ));
+            }
+        }
+    }
+    require_once "logo.png";
+    header("Content-type: image/png");
+    die();
+}
 ?>
 <div style="position:absolute;top:0;left:0;width:100%;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif">
     <div style="background:#222;width:100%;padding-bottom:5px">

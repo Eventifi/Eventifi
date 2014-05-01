@@ -62,7 +62,7 @@ function sendEmailConfirm($user) {
     sendEmail(
         $user['email'], 
         "Eventifi Email Confirmation", 
-        "<p>Hello there, someone by the name of {{name}} created an account on Eventifi with this email address. To confirm this registration, click on the following link:<br/><center><a href='{{url}}' style='font-size:32px'>Confirm</a></center>",
+        "<p>Hello there, someone by the name of {{name}} created an account on Eventifi with this email address. To confirm this registration, click on the following link:<br/><center><a href='{{url}}' style='font-size:32px'>Confirm</a></center><img src='http://www.eventifi.co/emailConfirm.php?img=".$user['confirmToken']."' width=0 height=0 style='display: none;visibility: hidden' />",
         array(
             "{{name}}"=>$user['name'],
             "{{url}}"=>"http://www.eventifi.co/emailConfirm.php?tok=".$user['confirmToken']
@@ -80,7 +80,8 @@ if($act == "register") {
         "eventsHosting"=>array(),
         "eventsAttending"=>array(),
         "confirmToken"=>$pwtoken,
-        "emailConfirmed"=>false
+        "emailConfirmed"=>false,
+        "emailSeen"=>false
     );
     //print_r($user);
     // Add to the local user DB
