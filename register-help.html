@@ -31,6 +31,10 @@
 		left: 225px;
 		position: absolute
       }
+	  @media (max-width: 833px){
+	  #map-canvas {
+		left: 0;
+	  }}
     </style>
     <script src ="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.4/angular.min.js"></script>
     <script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.6/firebase.js'></script>
@@ -110,18 +114,15 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="text-center">Registering and Sign In Help</h1>
+                <h1 class="text-center">Registering Help</h1>
             </div>
             <div class="modal-body">
                <h3>Registration Help </h3>
 			   <p> When you create an account, make sure that you have entered data into all of the fields and that both passwords match.</p>
-		<h3>Login Help </h3>
-			   <p> If you did not input a correct email and/or password, you will not be able to log in. Re-enter your email and/or password and try again. </p>
-
             </div>
             <div class="modal-footer">
                 <div class="col-md-12">
-                    <button class="btn" type = "button" onclick="javascript:window.location='sign-in.html'" data-dismiss="modal" aria-hidden="true">Go Back to Sign In</button>
+                    <button class="btn" type = "button" onclick="javascript:window.location='register.html'" data-dismiss="modal" aria-hidden="true">Go Back to Register</button>
                 </div>
             </div>
         </div>
