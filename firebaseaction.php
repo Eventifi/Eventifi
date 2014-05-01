@@ -70,6 +70,21 @@ function sendEmailConfirm($user) {
     );
 }
 
+function getUser($info) {
+    global $firebase;
+    $users = $firebase->get("Eventifi/0/Users");
+    $users = json_decode($users);
+    foreach($users as $uid=>$user) {
+        foreach($info as $field=>inf) {
+            if($user->$field == $inf) {
+                $user->userid = $uid;
+                return $user;
+            }
+        }
+    }
+    return false;
+}
+
 $act = (isset($_POST['act']) ? $_POST['act'] : $_GET['act']);
 if($act == "register") {
     $pwtoken = generateToken();
@@ -83,6 +98,11 @@ if($act == "register") {
         "emailConfirmed"=>false,
         "emailSeen"=>false
     );
+    // Do they exist already?
+    $dup = getUser(array("email"=>$user['email']));
+    if($dup != false) {
+        die(json_encode(array("error"=>"That user already exists."));
+    }
     //print_r($user);
     // Add to the local user DB
     $push = $firebase->push("Eventifi/0/Users", $user);
@@ -92,13 +112,23 @@ if($act == "register") {
         "password"=>$user['password']
     ));
     sendEmailConfirm($user);
-    print_r($push);
+    die(json_encode(array("success"=>array("code"=>"VERIFY", "message"=>"You need to verify your email address. Click the link in the confirmation message that has been sent."))));
 } elseif($act == "auth") {
-    echo json_encode(authcmd("firebase", array(
+    $user = getUser(array("email"=>$_POST['email']));
+    if($user == false) {
+        // They don't exist
+        die(json_encode(array("error"=>array("code"=>"ERROR", "message"=>"Invalid username or password.")));
+    }
+    if(!isset($user->emailConfirmed) || !$user->emailConfirmed) {
+        die(json_encode(array("error"=>array("code"=>"VERIFY", "message"=>"You need to verify your email address at. Click the link in the confirmation message that has been sent."))));
+    }
+    $auth = json_encode(authcmd("firebase", array(
         "email"=>$_POST['email'],
         "password"=>sha1($_POST['password'])
     )));
+    $user = getuser($_POST['email']);
 } elseif($act == "sha") {
     die(sha1($_REQUEST['password']));
 }
+// elseif($act == "get") die(print_r(getUser($_GET['g']),1));
 ?>
