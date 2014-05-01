@@ -78,7 +78,9 @@
                 params['act'] = 'register';
                 $.post("firebaseaction.php", params, function(resp) {
                     console.log(resp);
-                    d = JSON.parse(resp);
+                    try { d = JSON.parse(resp); } catch(e) { 
+                        $("h4").html("An error occurred. Please try again.");
+                    }
                     if(!!d && !!d.error) {
                         $("h4").html(d.error.message);
                         throw d.error.code+": "+d.error.message;
