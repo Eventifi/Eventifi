@@ -42,7 +42,7 @@ curl_setopt($ch, CURLOPT_URL, 'https://api.mailgun.net/v2/sandboxbe99f4f2f16142c
 curl_setopt($ch, CURLOPT_POSTFIELDS, array('from' => $from, //'postmaster@sandboxbe99f4f2f16142c18000a86a62a6f14b.mailgun.org',
 'to' => $to,
 'subject' => $title,
-'text' => $msg));
+'html' => $msg));
 curl_setopt($ch, CURLOPT_HTTPHEADER, explode("\r\n",$headers));
 $result = curl_exec($ch);
 curl_close($ch); 
