@@ -119,7 +119,7 @@ if($act == "register") {
         die(json_encode(array("error"=>array("code"=>"ERROR", "message"=>"Invalid username or password."))));
     }
     if(!isset($user->emailConfirmed) || !$user->emailConfirmed) {
-        die(json_encode(array("error"=>array("code"=>"VERIFY", "message"=>"You need to verify your email address at. Click the link in the confirmation message that has been sent."))));
+        die(json_encode(array("error"=>array("code"=>"VERIFY", "message"=>"You need to verify your email address before you can log in. Click the link in the confirmation message that has been sent."))));
     }
     $auth = json_encode(authcmd("firebase", array(
         "email"=>$_POST['email'],
