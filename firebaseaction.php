@@ -30,7 +30,7 @@ $emailTemplate = <<<EOF
     </div>
 </div>
 EOF;
-function sendmail($to, $title, $msg, $headers) {
+function sendmail($to, $title, $msg, $from, $headers) {
 $ch = curl_init();
 
 curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
@@ -39,7 +39,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
 curl_setopt($ch, CURLOPT_URL, 'https://api.mailgun.net/v2/sandboxbe99f4f2f16142c18000a86a62a6f14b.mailgun.org/messages');
-curl_setopt($ch, CURLOPT_POSTFIELDS, array('from' => 'postmaster@sandboxbe99f4f2f16142c18000a86a62a6f14b.mailgun.org',
+curl_setopt($ch, CURLOPT_POSTFIELDS, array('from' => $from, //'postmaster@sandboxbe99f4f2f16142c18000a86a62a6f14b.mailgun.org',
 'to' => $to,
 'subject' => $title,
 'text' => $msg));
@@ -53,9 +53,7 @@ function sendEmail($email, $title, $content, $messageattrs) {
     $message = str_replace("{{title}}", $title, $message);
     $message = str_replace(array_keys($messageattrs), array_values($messageattrs), $message);
     echo "Sending: $message";
-    $headers  = 'MIME-Version: 1.0' . "\r\n";
-    $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-    sendmail($email, $title, $message, $headers."From: email-confirm@noreply.eventifi.co");
+    sendmail($email, $title, $message, "email-confirm@noreply.eventifi.co", "");
 }
 function sendTempEmail($data) {
     $req = file_get_contents("http://eventifiapp.comeze.com/eventifi_email_send.php?".http_build_query($data));
