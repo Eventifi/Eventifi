@@ -64,7 +64,7 @@ function sendEmailConfirm($user) {
     sendEmail(
         $user['email'], 
         "Eventifi Email Confirmation", 
-        "<p>Hello there, someone by the name of {{name}} created an account on Eventifi with this email address. To confirm this registration, click on the following link:<br/><center><button onclick=\"location.href='{{url}}'\" style='font-size:32px'>Confirm</button></center>",
+        "<p>Hello there, someone by the name of {{name}} created an account on Eventifi with this email address. To confirm this registration, click on the following link:<br/><center><a href='{{url}}' style='font-size:32px'>Confirm</a></center>",
         array(
             "{{name}}"=>$user['name'],
             "{{url}}"=>"http://www.eventifi.co/emailConfirm.php?tok=".$user['confirmToken']
