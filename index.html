@@ -140,6 +140,7 @@
 			})
 		}
 
+        esc = function(t) { return t.replace(/<(?:.|\n)*?>/gm, ''); }
 		function codeAddress() {
 		var i = 0;
 		var locations = new Firebase('https://eventified.firebaseio.com/Eventifi/1/Events/');
@@ -151,8 +152,8 @@
 			//console.log(results);
 			if (status == google.maps.GeocoderStatus.OK) {
 			//console.log(messageSnapshot.val());
-			var contentString = '<a href="join-event.html?eventid='+ messageSnapshot.name() + '">' + escape(messageSnapshot.val().name) + '</a>';
-
+			var contentString = '<a href="join-event.html?eventid='+ messageSnapshot.name() + '">' + esc(messageSnapshot.val().name) + '</a>';
+            console.log(contentString);
 			  var infowindow = new google.maps.InfoWindow({
 				  content: contentString
 			  });
