@@ -62,7 +62,7 @@
                     if (!error)
 					{
                         console.log('User Id: ' + user.id + ', Email: ' + user.email);
-                        var newUser = {email:$scope.authinfo.email, password:$scope.authinfo.password, name:$scope.authinfo.name, eventsHosting: [], eventsAttending: []};
+                        var newUser = {email:$scope.authinfo.email, password:$scope.authinfo.password, name:$scope.authinfo.name, eventsHosting: [], eventsAttending: [], friends: []};
                         userRef.push(newUser)
                         localStorage.setItem('User', (newUser.email));
                         $scope.$apply();
