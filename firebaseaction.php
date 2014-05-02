@@ -62,10 +62,22 @@ function sendEmailConfirm($user) {
     sendEmail(
         $user['email'], 
         "Eventifi Email Confirmation", 
-        "<p>Hello there, someone by the name of {{name}} created an account on Eventifi with this email address. To confirm this registration, click on the following link:<br/><center><a href='{{url}}' style='font-size:32px'>Confirm</a></center><img src='http://www.eventifi.co/emailConfirm.php?img=".$user['confirmToken']."' width=0 height=0 style='display: none;visibility: hidden' />",
+        "<p>Hello there, someone by the name of {{name}} created an account on Eventifi with this email address. To confirm this registration, click on the following link:<br/><center><a href='{{url}}' style='font-size:32px'>Confirm</a></center>",
         array(
             "{{name}}"=>$user['name'],
             "{{url}}"=>"http://www.eventifi.co/emailConfirm.php?tok=".$user['confirmToken']
+        )
+    );
+}
+
+function sendReset($user) {
+    sendEmail(
+        $user['email'],
+        "Eventifi Password Reset",
+        "<p>Hello there, we have recieved a request to reset the password for your account, {{email}}, on Eventifi. To confirm this reset and choose a new password, click on the following link:<br/><center><a href='{{url}}' style='font-size: 32px'>Confirm</a></center>",
+        array(
+            "{{email}}"=>$user['email'],
+            "{{url}}"=>"http://www.eventifi.co/emailConfirm.php?resettok=".$user['resetToken']
         )
     );
 }
@@ -96,7 +108,7 @@ if($act == "register") {
         "eventsAttending"=>array(),
         "confirmToken"=>$pwtoken,
         "emailConfirmed"=>false,
-        "emailSeen"=>false
+        "resetToken"=>false
     );
     // Do they exist already?
     $dup = getUser(array("email"=>$user['email']));
@@ -127,6 +139,19 @@ if($act == "register") {
         "password"=>sha1($_POST['password'])
     )));
     die($auth);
+} elseif($act == "resetpass") {
+    $user = getUser(array("email"=>$_POST['email']));
+    if($user == false) {
+        // They don't exist, but don't let them know that
+        die(json_encode(array("success"=>array("message"=>"Successfully sent an email.","email"=>$user->email))));
+    }
+    $tok = generateToken();
+    $user->resetToken = $tok;
+    sendReset(array(
+        "email"=>$user->email,
+        "resetToken"=>$tok
+    ));
+    die(json_encode(array("success"=>array("message"=>"Successfully sent an email.","email"=>$user->email))));
 } elseif($act == "sha") {
     die(sha1($_REQUEST['password']));
 }

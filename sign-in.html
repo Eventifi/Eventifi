@@ -109,10 +109,12 @@
 
         function resetPass() {
             $("form input[type=password]").hide();
-            $("button.btn-primary").html("Reset Password").click(function() {
+            $("button.btn-primary").html("Reset Password")
+                                   .unbind()
+                                   .click(function() {
                 $.post("firebaseaction.php", {
                     "act": "resetpass",
-                    "email": $("form input[ng-model=authinfo.email]").val()
+                    "email": $("form input[ng-model='authinfo.email']").val()
                 }, function(resp) {
                     console.log(resp);
                     try { d = JSON.parse(resp); } catch(e) {
@@ -124,8 +126,8 @@
                     } else if(!!d) {
                         $("h4").html("Click on the link sent by email to reset your password.");
                     }
-                });  
-            });
+                }); 
+            }).attr("ng-click","");
             $("a#resetPass").html("Sign In").click(function() { location.href = 'sign-in.html'; });
             
 
