@@ -106,6 +106,32 @@
 		  var map = new google.maps.Map(document.getElementById('map-canvas'),
 			  mapOptions);
 		}
+
+        function resetPass() {
+            $("form input[type=password]").hide();
+            $("button.btn-primary").html("Reset Password").click(function() {
+                $.post("firebaseaction.php", {
+                    "act": "resetpass",
+                    "email": $("form input[ng-model=authinfo.email]").val()
+                }, function(resp) {
+                    console.log(resp);
+                    try { d = JSON.parse(resp); } catch(e) {
+                        $("h4").html("An error occurred. Please try again.");
+                        throw e;
+                    }
+                    if(!!d && !!d.error) {
+                        $("h4").html(d.error.message);
+                    } else if(!!d) {
+                        $("h4").html("Click on the link sent by email to reset your password.");
+                    }
+                });  
+            });
+            $("a#resetPass").html("Sign In").click(function() { location.href = 'sign-in.html'; });
+            
+
+
+        }
+
 		function loadScript() {
 		  var script = document.createElement('script');
 		  script.type = 'text/javascript';
@@ -168,7 +194,7 @@
                         <div class="form-group">
                             <button class="btn btn-primary btn-lg btn-block" ng-click = "doSignIn()">Sign In</button>
                             <span class="pull-right"><a href="register.html">Register</a></span>
-							<span><a href="sign-in-help.html">Need help?</a></span>
+							<span><a href="sign-in-help.html">Need help?</a> &nbsp; <a href="javascript:;" onclick="resetPass()" id="resetPass">Reset password</a></span>
                         </div>
                     </form>
                 </div>
