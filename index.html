@@ -154,7 +154,7 @@
 			var contentString = '<a href="join-event.html?eventid='+ messageSnapshot.name() + '">' + escape(messageSnapshot.val().name) + '</a>';
 
 			  var infowindow = new google.maps.InfoWindow({
-				  content: escape(contentString)
+				  content: contentString
 			  });
 
 			  var marker = new google.maps.Marker({
