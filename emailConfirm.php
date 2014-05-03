@@ -7,7 +7,7 @@ if(isset($_GET['tok'])) {
     $usersJSON = $firebase->get("Eventifi/0/Users");
     $users = json_decode($usersJSON);
     $message = "Invalid token. Make sure you have clicked on the full link.";
-    if(sizeof($tok) < 39) $users = [];
+    if(strlen($tok) < 39) $users = [];
     foreach($users as $userID=>$user) {
         if(isset($user->confirmToken) && trim($user->confirmToken) == $tok) {
             if(isset($_GET['unconfirm'])) {

@@ -1,18 +1,17 @@
 <?php
 require_once 'firebaseLib.php';
 $firebase = new Firebase("https://eventified.firebaseio.com/");
+$message = "An error occurred.";
+print_r($_POST);
 if(isset($_POST['tok'])) {
-    $tok = trim($_GET['tok']);
+    $tok = trim($_POST['tok']);
     $usersJSON = $firebase->get("Eventifi/0/Users");
     $users = json_decode($usersJSON);
     $message = "Invalid token. Make sure you have clicked on the full link.";
-    if(sizeof($tok) < 39) $users = [];
+    if(strlen($tok) < 39) $users = [];
     foreach($users as $userID=>$user) {
+        echo $user->resetToken." ".$tok."<br>";
         if(isset($user->resetToken) && trim($user->resetToken) == $tok) {
-            if($user->resetToken == true) {
-                $message = "You have already confirmed this address.";
-                break;
-            } else {
                 $usr = $user;
                 if($_POST['password1'] != $_POST['password2']) {
                     $message = "The passwords did not match. Go back and try again.";
@@ -25,11 +24,9 @@ if(isset($_POST['tok'])) {
                 ));
                 $message = "Your password was successfully changed.";
                 
-            }
         }
     }
-}
-else if(isset($_GET['tok'])) {
+} else if(isset($_GET['tok'])) {
     $tok = trim($_GET['tok']);
     $usersJSON = $firebase->get("Eventifi/0/Users");
     $users = json_decode($usersJSON);
@@ -41,6 +38,7 @@ else if(isset($_GET['tok'])) {
                 print_r($user);
                 $message = "";
                 $usr = $user;
+                $usremail = $user->email;
                 break;
                 /*$firebase->update("Eventifi/0/Users/".$userID, array(
                     "resetToken"=>
@@ -50,7 +48,7 @@ else if(isset($_GET['tok'])) {
         }
     }
 } else die();
-if(isset($message) && sizeof($message) > 1) {
+if(isset($message) && strlen($message) > 1) {
         ?>
 <div style="position:absolute;top:0;left:0;width:100%;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif">
     <div style="background:#222;width:100%;padding-bottom:5px">
@@ -77,13 +75,13 @@ if(isset($message) && sizeof($message) > 1) {
     <br/>
     <div style="padding-left:10px">
     <form action="passwordReset.php" method="post">
-        <input type="hidden" name="tok" value="<?php echo $tok; ?>" />
+        <input type="hidden" name="tok" value="<?php echo trim($_GET['tok']); ?>" />
         <?php print_r($usr); ?>
-        Enter a new password for the account <?php echo $usr->email; ?>:<br />
+        Enter a new password for the account <?php echo $usremail; ?>:<br />
         <table>
         <tr><th>Password:</th><td><input name="password1" type="password" /></td></tr>
         <tr><th>Again:</th><td><input name="password2" type="password" /></td></tr>
-        <tr><th rowspan=2><input type="submit" value="Change Password" /></th></tr>
+        <tr><th colspan=2><input type="submit" value="Change Password" /></th></tr>
         </table>
     </form>
     </div>
