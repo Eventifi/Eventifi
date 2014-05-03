@@ -13,7 +13,7 @@ if(isset($_POST['tok'])) {
     $message = "Invalid token. Make sure you have clicked on the full link.";
     if(strlen($tok) < 39) $users = [];
     foreach($users as $userID=>$user) {
-        echo $user->resetToken." ".$tok."<br>";
+//        echo $user->resetToken." ".$tok."<br>";
         if(isset($user->resetToken) && trim($user->resetToken) == $tok) {
                 if($_POST['password1'] != $_POST['password2']) {
                     $message = "The passwords did not match. Go back and try again.";
@@ -44,7 +44,6 @@ if(isset($_POST['tok'])) {
     if(strlen($tok) < 39) $users = [];
     foreach($users as $userID=>$user) {
         if(isset($user->resetToken) && trim($user->resetToken) == $tok) {
-                print_r($user);
                 $message = "";
                 $usr = $user;
                 $usremail = $user->email;
@@ -85,7 +84,6 @@ if(isset($message) && strlen($message) > 1) {
     <div style="padding-left:10px">
     <form action="passwordReset.php" method="post">
         <input type="hidden" name="tok" value="<?php echo trim($_GET['tok']); ?>" />
-        <?php print_r($usr); ?>
         Enter a new password for the account <?php echo $usremail; ?>:<br />
         <table>
         <tr><th>Password:</th><td><input name="password1" type="password" /></td></tr>
