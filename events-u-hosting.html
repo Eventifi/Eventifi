@@ -172,7 +172,8 @@
 						console.log('canceled delete');
 					  }
 				}
-			var tableIt = function(underUser){
+			esc = function(t) { return t.replace(/(<([^>]+)>)/ig,""); }
+            var tableIt = function(underUser){
 				var table = document.getElementById("info");
 				underUser.on('value', function(snapshot){
 				snapshot.forEach(function(messageSnapshot){
@@ -201,9 +202,9 @@
 				var cell7 = row.insertCell(6);
 				
 				// Add some text to the new cells:
-				cell1.innerHTML = escape(name);
-				cell2.innerHTML = escape(address);
-				cell3.innerHTML = escape(description);
+				cell1.innerHTML = esc(name);
+				cell2.innerHTML = esc(address);
+				cell3.innerHTML = esc(description);
 				cell4.innerHTML = startTime;
 				cell5.innerHTML = endTime;
 				cell6.innerHTML = capacity;
