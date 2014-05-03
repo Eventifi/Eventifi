@@ -34,11 +34,14 @@ else if(isset($_GET['tok'])) {
     $usersJSON = $firebase->get("Eventifi/0/Users");
     $users = json_decode($usersJSON);
     $message = "Invalid token. Make sure you have clicked on the full link.";
+    $usr = null;
     if(strlen($tok) < 39) $users = [];
     foreach($users as $userID=>$user) {
         if(isset($user->resetToken) && trim($user->resetToken) == $tok) {
+                print_r($user);
                 $message = "";
                 $usr = $user;
+                break;
                 /*$firebase->update("Eventifi/0/Users/".$userID, array(
                     "resetToken"=>
                 ));
@@ -47,7 +50,7 @@ else if(isset($_GET['tok'])) {
         }
     }
 } else die();
-if(isset($message) && $message != "") {
+if(isset($message) && sizeof($message) > 1) {
         ?>
 <div style="position:absolute;top:0;left:0;width:100%;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif">
     <div style="background:#222;width:100%;padding-bottom:5px">
@@ -75,6 +78,7 @@ if(isset($message) && $message != "") {
     <div style="padding-left:10px">
     <form action="passwordReset.php" method="post">
         <input type="hidden" name="tok" value="<?php echo $tok; ?>" />
+        <?php print_r($usr); ?>
         Enter a new password for the account <?php echo $usr->email; ?>:<br />
         <table>
         <tr><th>Password:</th><td><input name="password1" type="password" /></td></tr>

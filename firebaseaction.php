@@ -14,7 +14,7 @@ function authcmd($act, $params) {
 }
 
 function generateToken() {
-    return sha1(time());
+    return sha1(time().((int)rand()*1000));
 }
 
 $emailTemplate = <<<EOF
@@ -146,7 +146,7 @@ if($act == "register") {
         die(json_encode(array("success"=>array("message"=>"Successfully sent an email.","email"=>$user->email))));
     }
     $tok = generateToken();
-    $firebase->push("Eventifi/0/Users/".$user->userid, array(
+    $firebase->update("Eventifi/0/Users/".$user->userid, array(
         "resetToken" => $tok
     ));
     sendReset(array(
