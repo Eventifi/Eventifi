@@ -146,7 +146,9 @@ if($act == "register") {
         die(json_encode(array("success"=>array("message"=>"Successfully sent an email.","email"=>$user->email))));
     }
     $tok = generateToken();
-    $user->resetToken = $tok;
+    $firebase->push("Eventifi/0/Users/".$user->userid, array(
+        "resetToken" => $tok
+    ));
     sendReset(array(
         "email"=>$user->email,
         "resetToken"=>$tok
@@ -155,5 +157,5 @@ if($act == "register") {
 } elseif($act == "sha") {
     die(sha1($_REQUEST['password']));
 }
-// elseif($act == "get") die(print_r(getUser($_GET['g']),1));
+elseif($act == "get") die(print_r(getUser($_GET),1));
 ?>
