@@ -205,9 +205,10 @@
 		var cell7 = row.insertCell(5);
 		
 		// Add some text to the new cells:
-		cell1.innerHTML = escape(name);
-		cell2.innerHTML = escape(address);
-		cell3.innerHTML = escape(description);
+        esc = function(t) { return t.replace(/(<([^>]+)>)/ig,""); }
+		cell1.innerHTML = esc(name);
+		cell2.innerHTML = esc(address);
+		cell3.innerHTML = esc(description);
 		cell5.innerHTML = startTime;
 		cell6.innerHTML = endTime;
 		cell7.innerHTML = capacity;
