@@ -6,6 +6,7 @@ if(isset($_POST['tok'])) {
     $usersJSON = $firebase->get("Eventifi/0/Users");
     $users = json_decode($usersJSON);
     $message = "Invalid token. Make sure you have clicked on the full link.";
+    if(sizeof($tok) < 39) $users = [];
     foreach($users as $userID=>$user) {
         if(isset($user->resetToken) && trim($user->resetToken) == $tok) {
             if($user->resetToken == true) {
@@ -19,7 +20,7 @@ if(isset($_POST['tok'])) {
                 }
                 $pass = $_POST['password1'];
                 $firebase->update("Eventifi/0/Users/".$userID, array(
-                    "resetToken"=>false,
+                    "resetToken"=>"false",
                     "password"=>sha1($pass)
                 ));
                 $message = "Your password was successfully changed.";
@@ -28,17 +29,14 @@ if(isset($_POST['tok'])) {
         }
     }
 }
-if(isset($_GET['tok'])) {
+else if(isset($_GET['tok'])) {
     $tok = trim($_GET['tok']);
     $usersJSON = $firebase->get("Eventifi/0/Users");
     $users = json_decode($usersJSON);
     $message = "Invalid token. Make sure you have clicked on the full link.";
+    if(strlen($tok) < 39) $users = [];
     foreach($users as $userID=>$user) {
         if(isset($user->resetToken) && trim($user->resetToken) == $tok) {
-            if($user->resetToken == true) {
-                $message = "You have already confirmed this address.";
-                break;
-            } else {
                 $message = "";
                 $usr = $user;
                 /*$firebase->update("Eventifi/0/Users/".$userID, array(
@@ -46,7 +44,6 @@ if(isset($_GET['tok'])) {
                 ));
                 $message = "Your email address (".$user->email.") has been successfully confirmed.";
                 */
-            }
         }
     }
 } else die();
@@ -76,7 +73,7 @@ if(isset($message) && $message != "") {
     </div>
     <br/>
     <div style="padding-left:10px">
-    <form action="resetPassword.php" method="post">
+    <form action="passwordReset.php" method="post">
         <input type="hidden" name="tok" value="<?php echo $tok; ?>" />
         Enter a new password for the account <?php echo $usr->email; ?>:<br />
         <table>

@@ -108,7 +108,7 @@ if($act == "register") {
         "eventsAttending"=>array(),
         "confirmToken"=>$pwtoken,
         "emailConfirmed"=>false,
-        "resetToken"=>false
+        "resetToken"=>"false"
     );
     // Do they exist already?
     $dup = getUser(array("email"=>$user['email']));
