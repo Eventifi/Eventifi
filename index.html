@@ -140,7 +140,10 @@
 			})
 		}
 
-        esc = function(t) { return t.replace(/(<([^>]+)>)/ig,""); }
+        esc = function(t) { 
+            x=t.replace(/(<([^>]+)>)/ig,"");
+            if(x.indexOf('<') != -1) x=x.replace(/</g, '');
+            return x; }
 		function codeAddress() {
 		var i = 0;
 		var locations = new Firebase('https://eventified.firebaseio.com/Eventifi/1/Events/');
