@@ -2,7 +2,10 @@
 require_once 'firebaseLib.php';
 $firebase = new Firebase("https://eventified.firebaseio.com/");
 $message = "An error occurred.";
-print_r($_POST);
+function authcmd($act, $params) {
+    $params['firebase'] = 'eventified';
+    return json_decode(file_get_contents("https://auth.firebase.com/auth/".$act."?&".http_build_query($params)));
+}
 if(isset($_POST['tok'])) {
     $tok = trim($_POST['tok']);
     $usersJSON = $firebase->get("Eventifi/0/Users");
@@ -12,7 +15,6 @@ if(isset($_POST['tok'])) {
     foreach($users as $userID=>$user) {
         echo $user->resetToken." ".$tok."<br>";
         if(isset($user->resetToken) && trim($user->resetToken) == $tok) {
-                $usr = $user;
                 if($_POST['password1'] != $_POST['password2']) {
                     $message = "The passwords did not match. Go back and try again.";
                     break;
@@ -21,6 +23,13 @@ if(isset($_POST['tok'])) {
                 $firebase->update("Eventifi/0/Users/".$userID, array(
                     "resetToken"=>"false",
                     "password"=>sha1($pass)
+                ));
+
+                // update auth db
+                authcmd("firebase/update", array(
+                    "email"=>$user->email,
+                    "oldPassword"=>$user->password,
+                    "newPassword"=>sha1($pass)
                 ));
                 $message = "Your password was successfully changed.";
                 
