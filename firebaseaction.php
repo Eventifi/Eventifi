@@ -77,7 +77,7 @@ function sendReset($user) {
         "<p>Hello there, we have recieved a request to reset the password for your account, {{email}}, on Eventifi. To confirm this reset and choose a new password, click on the following link:<br/><center><a href='{{url}}' style='font-size: 32px'>Confirm</a></center>",
         array(
             "{{email}}"=>$user['email'],
-            "{{url}}"=>"http://www.eventifi.co/emailConfirm.php?resettok=".$user['resetToken']
+            "{{url}}"=>"http://www.eventifi.co/passwordReset.php?tok=".$user['resetToken']
         )
     );
 }
