@@ -56,6 +56,10 @@
 					}
 				})
 			  })
+			 esc = function(t) { 
+				var x=t.replace(/(<([^>]+)>)/ig,"");
+				return (x == t)}
+				
 			  var underUser;
               $scope.createEvent = function() {
                   //console.log($scope.eventdata);				  
@@ -89,15 +93,25 @@
 					var sHour = startTime.substring(16,18);
 					var sMinute = startTime.substring(19,21);
 					var startD = new Date(sYear, sMonth, sDay, sHour, sMinute);	
-					
+					var noHTMLName = esc($scope.eventdata.namedata);
+					var noHTMLDesc = esc($scope.eventdata.description);
+					var noHTMLAdd = esc($scope.eventdata.address);
+					var noHTMLCap = esc($scope.eventdata.capacity);	
 					var d = new Date();
 					if (startD > d)
 					{
 						if (endD > startD)
 						{
-							eventRef.push({attendees: [{}], eventcreator: $scope.user, address: $scope.eventdata.address, capacity: $scope.eventdata.capacity, description: $scope.eventdata.description, start: $scope.eventdata.starttime.toString(), end: $scope.eventdata.endtime.toString(), name: $scope.eventdata.namedata});
-							underUser.push({ address: $scope.eventdata.address, capacity: $scope.eventdata.capacity, description: $scope.eventdata.description, start: $scope.eventdata.starttime.toString(), end: $scope.eventdata.endtime.toString(), name: $scope.eventdata.namedata});
-							window.location = "index.html";
+							if (noHTMLName && noHTMLDesc && noHTMLAdd && noHTMLCap)
+							{
+								eventRef.push({attendees: [{}], eventcreator: $scope.user, address: $scope.eventdata.address, capacity: $scope.eventdata.capacity, description: $scope.eventdata.description, start: $scope.eventdata.starttime.toString(), end: $scope.eventdata.endtime.toString(), name: $scope.eventdata.namedata});
+								underUser.push({ address: $scope.eventdata.address, capacity: $scope.eventdata.capacity, description: $scope.eventdata.description, start: $scope.eventdata.starttime.toString(), end: $scope.eventdata.endtime.toString(), name: $scope.eventdata.namedata});
+								//window.location = "index.html";
+							}
+							else
+							{
+								alert("Do NOT include HTML tags in your inputs!");
+							}
 						}
 						else
 						{
