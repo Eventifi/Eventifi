@@ -89,8 +89,11 @@
 			event.on('value', function(snapshot){
 				snapshot.forEach(function(messageSnapshot){
 					var event2 = messageSnapshot.name();
+					var thisName = messageSnapshot.val().name;
+					var thisCap = messageSnapshot.val().capacity;
 					var fire = new Firebase('https://eventified.firebaseio.com/Eventifi/1/Events/' + event2);
 					var endTime = messageSnapshot.val().end;
+					var creatorName = messageSnapshot.val().eventcreator;
 					var eYear = endTime.substring(11,15);	
 							
 					var dict = [];
@@ -135,6 +138,30 @@
 					if (eve <= curr)
 					{
 						fire.remove();
+						var creatorFire = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/');
+						creatorFire.on('value', function(snapshot){
+						snapshot.forEach(function(messageSnapshot){
+						var creatorEmail = messageSnapshot.val().email();
+						var hash = messageSnapshot.name();
+						if(creatorEmail == creatorName)
+						{
+							var cFire = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + hash + '/eventsHosting/');
+							cFire.on('value', function(snapshot){
+							snapshot.forEach(function(messageSnapshot){
+							var creatorEmail = messageSnapshot.val().email();
+							var eName = messageSnapshot.val().name;
+							var eCap = messageSnapshot.val().capacity;
+							
+							if(eName == thisName)
+							{
+								if(eCap == thisCap)
+								{
+									var tempRemove = messageSnapshot.name();
+									var eventToRemove = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + hash + '/eventsHosting/' + tempRemove)
+									eventToRemove.remove();
+								}
+							}
+						})})}})})
 					}
 				})		
 			})
