@@ -119,9 +119,16 @@
 			})
 			
 			$scope.addFriend = function() {
+				if (addClicked)
+				{
+					alert("A request was already sent");
+					return;
+				}
 				  console.log(queryId + " inside");
    				  var tar = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + queryId + '/friendsReceived');
 				  tar.push({email: $scope.user});
+				  var tar2 = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + queryId + '/notifications');
+				  tar2.push({message: "You have a friend request from " + $scope.user});
 				  console.log("he received");
 				   var userPage = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users');
 					userPage.once('value', function(snapshot){
