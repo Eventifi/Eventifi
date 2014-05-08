@@ -161,7 +161,7 @@
 						var emailD = messageSnapshot.val().email;
 							realComb = temp;
 							underUser = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + realComb +'/notifications/');	
-							String hey = bob + " joined your event";
+							var hey = bob + " joined your event";
 							console.log(hey);
 							underUser.push( {hi: hey});	
 						}
