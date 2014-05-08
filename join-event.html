@@ -108,8 +108,6 @@
 		var eventApp = angular.module('eventApp',["ngCookies"]);
 		eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {
 			$scope.user = "not logged in";
-			localStorage.setItem('User', ("sahith.malyala@gmail.com"));
-		    $scope.$apply();
 			$scope.user = localStorage.getItem("User");
 			$scope.joinEvent = function() {
 				  
