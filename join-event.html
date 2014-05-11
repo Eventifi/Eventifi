@@ -158,17 +158,17 @@
 						var bob = $scope.user;
 						var emailD = messageSnapshot.val().email;
 							realComb = temp;
-							underUser = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + realComb +'/notifications/');	
+							underUser2 = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + realComb +'/notifications/');	
 							var hey = bob + " joined your event";
 							console.log(hey);
-							underUser.push( {hi: hey});	
+							underUser2.push( {hi: hey});	
 						}
 					})
 				  })
 				  eventRef2.child('capacity').set(cap);
 				  eventRef.push({email: $scope.user});
 					console.log("here");
-					 //underUser.push(event);
+					 underUser.push(event);
 					 console.log(event);
 				  $scope.worked = "You have successfully joined the event!";
 					console.log("after");
