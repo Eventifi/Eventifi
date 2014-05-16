@@ -73,6 +73,7 @@
 	$("#eventName").val(event.name);
 	$("#eventCrea").val(event.eventcreator);
 	creattor = event.eventcreator;
+	eName = event.name;
 	var forUser = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users');
 	forUser.on('value', function(snapshot){
 		snapshot.forEach(function(messageSnapshot){
@@ -154,21 +155,19 @@
 				  userPage.once('value', function(snapshot){
 					snapshot.forEach(function(messageSnapshot){
 						var temp = messageSnapshot.name();
-						if (creattor == emailD){
-						var bob = $scope.user;
 						var emailD = messageSnapshot.val().email;
+						if (creattor == emailD){
 							realComb = temp;
 							underUser2 = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + realComb +'/notifications/');	
-							var hey = bob + " joined your event";
-							console.log(hey);
-							underUser2.push( {hi: hey});	
+							var hey = $scope.user + " joined " + eName;
+							underUser2.push({message: hey});
 						}
 					})
 				  })
 				  eventRef2.child('capacity').set(cap);
 				  eventRef.push({email: $scope.user});
 					console.log("here");
-					 underUser.push(event);
+					 //underUser.push(event);
 					 console.log(event);
 				  $scope.worked = "You have successfully joined the event!";
 					console.log("after");
