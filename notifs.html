@@ -152,6 +152,8 @@
 					if (use == emailD){
 						realCo = temp;
 						var underUser = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + realCo + '/friendsReceived');
+						var underUser5 = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + realCo + '/notifications');
+						underUser5.push({message: "You accepted " + emailD + "'s friend request!"});
 						underUser.once('value', function(snapshot){
 						snapshot.forEach(function(messageSnapshot){
 						var temp = messageSnapshot.name();
@@ -166,6 +168,7 @@
 						underUser2.push({email: emailT});
 						}
 					)})}})})
+					window.location = "notifs.html";
 				}
 				function cancelFriend(emailT){
 					console.log("up here");
@@ -199,6 +202,8 @@
 					if (use == emailD){
 						realCo = temp;
 						var underUser = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + realCo + '/friendsReceived');
+						var underUser5 = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + realCo + '/notifications');
+						underUser5.push({message: "You declined " + emailD + "'s friend request."});
 						underUser.once('value', function(snapshot){
 						snapshot.forEach(function(messageSnapshot){
 						var temp = messageSnapshot.name();
@@ -211,6 +216,7 @@
 						}	
 						}
 					)})}})})
+					window.location = "notifs.html";
 				}
 				var tableIt = function(underUser){
 				var table = document.getElementById("info");
@@ -220,14 +226,14 @@
 				console.log(et);	
 				notif = messageSnapshot.val().message;
 				console.log(notif);
-				if (notif.search("friend") != -1 && notif.search("accepted") == -1)
+				if (notif.search("friend") != -1 && notif.search("accepted") == -1 && notif.search("declined") == -1)
 				{	
 					
 					var addF = '<input type="button" value="Add Friend" class = "btn btn-defaul" onclick = "addFriend(notif.substring(31))" />';
 					var delF = '<input type="button" value="Reject Friend" class = "btn btn-defaul" onclick = "cancelFriend(notif.substring(31))" />';
 					
 					// Create an empty <tr> element and add it to the 1st position of the table:
-					var row = table.insertRow(-1);
+					var row = table.insertRow(1);
 					
 					// Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
 					var cell1 = row.insertCell(0);
@@ -238,11 +244,12 @@
 					cell1.innerHTML = notif;
 					cell2.innerHTML = addF;
 					cell3.innerHTML = delF;
+					
 				}
 				else if (notif.search("friend") != -1 && notif.search("accepted") != -1)
 				{
 										// Create an empty <tr> element and add it to the 1st position of the table:
-					var row = table.insertRow(-1);
+					var row = table.insertRow(1);
 					
 					// Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
 					var cell1 = row.insertCell(0);
@@ -253,7 +260,18 @@
 				else if (notif.search("friend") != -1 && notif.search("declined") != -1)
 				{
 										// Create an empty <tr> element and add it to the 1st position of the table:
-					var row = table.insertRow(-1);
+					var row = table.insertRow(1);
+					
+					// Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+					var cell1 = row.insertCell(0);
+					
+					// Add some text to the new cells:
+					cell1.innerHTML = notif;
+				}
+				else if (notif.search("joined") != -1)
+				{
+										// Create an empty <tr> element and add it to the 1st position of the table:
+					var row = table.insertRow(1);
 					
 					// Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
 					var cell1 = row.insertCell(0);
