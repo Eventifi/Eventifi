@@ -118,49 +118,6 @@
 						tableIt(underUser);
 						}
 					})})}])
-				function confused(eventName){
-					var underUser3 = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + realComb);
-					var eventHost;
-					underUser3.on('value', function(snapshot){
-						eventHost = snapshot.val().email;
-						deleteMaster(eventName, eventHost);
-					})
-				}
-				function deleteMaster(eventName, eventHost){
-					var underUser4 = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + realComb + '/eventsHosting/' + eventName);
-					var eventDes;
-					var eventNam;
-					underUser4.on('value', function(snapshot){
-						eventDes = snapshot.val().description;
-						eventNam = snapshot.val().name;
-					})
-					var eventsList = new Firebase('https://eventified.firebaseio.com/Eventifi/1/Events');
-					eventsList.once('value', function(snapshot){
-						snapshot.forEach(function(messageSnapshot){
-							var temp = messageSnapshot.val();
-							var del;
-							if (temp.eventcreator == eventHost && temp.description == eventDes && temp.name == eventNam){
-								del = new Firebase('https://eventified.firebaseio.com/Eventifi/1/Events/' + messageSnapshot.name());
-								deleteEvent(eventName, del);
-							}
-						})
-					})
-				}
-				function deleteEvent(eventName, del) {
-					var underUser2 = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + realComb + '/eventsHosting/' + eventName);
-					var r = confirm("Are you sure you want to delete the event?");
-					if (r==true)
-					  {
-					   underUser2.remove();
-					   	window.location = "events-u-hosting.html";
-					   del.remove();
-					   window.location = "events-u-hosting.html";
-					  }
-					else
-					  {
-						console.log('canceled delete');
-					  }
-				}
 				function addFriend(emailT){
 					console.log("up here");
 					var userPage = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users');
@@ -171,6 +128,8 @@
 					if (emailT == emailD){
 						realC = temp;
 						var underUser = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + realC + '/friendsAsked');
+						var underUser4 = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + realC + '/notifications');
+						underUser4.push({message: use + " has accepted your friend request!"});
 						underUser.once('value', function(snapshot){
 						snapshot.forEach(function(messageSnapshot){
 						var temp = messageSnapshot.name();
@@ -208,6 +167,51 @@
 						}
 					)})}})})
 				}
+				function cancelFriend(emailT){
+					console.log("up here");
+					var userPage = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users');
+					userPage.once('value', function(snapshot){
+					snapshot.forEach(function(messageSnapshot){
+					var temp = messageSnapshot.name();
+					var emailD = messageSnapshot.val().email;
+					if (emailT == emailD){
+						realC = temp;
+						var underUser = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + realC + '/friendsAsked');
+						var underUser4 = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + realC + '/notifications');
+						underUser4.push({message: use + " has declined your friend request."});
+						underUser.once('value', function(snapshot){
+						snapshot.forEach(function(messageSnapshot){
+						var temp = messageSnapshot.name();
+						var emailD = messageSnapshot.val().email;
+						var emailD = messageSnapshot.val().email;
+						if (use == emailD){
+							var real = temp;
+							var bye = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + realC + '/friendsAsked/' + real);
+							bye.remove();
+						}						
+						}
+					)})}})})
+					var userPage = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users');
+					userPage.once('value', function(snapshot){
+					snapshot.forEach(function(messageSnapshot){
+					var temp = messageSnapshot.name();
+					var emailD = messageSnapshot.val().email;
+					if (use == emailD){
+						realCo = temp;
+						var underUser = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + realCo + '/friendsReceived');
+						underUser.once('value', function(snapshot){
+						snapshot.forEach(function(messageSnapshot){
+						var temp = messageSnapshot.name();
+						var emailD = messageSnapshot.val().email;
+						var emailD = messageSnapshot.val().email;
+						if (emailT == emailD){
+							var real = temp;
+							var bye = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + realCo + '/friendsReceived/' + real);
+							bye.remove();
+						}	
+						}
+					)})}})})
+				}
 				var tableIt = function(underUser){
 				var table = document.getElementById("info");
 				underUser.on('value', function(snapshot){
@@ -220,7 +224,7 @@
 				{	
 					
 					var addF = '<input type="button" value="Add Friend" class = "btn btn-defaul" onclick = "addFriend(notif.substring(31))" />';
-					var delF = '<input type="button" value="Reject Friend" class = "btn btn-defaul" onclick = "confused(et)" />';
+					var delF = '<input type="button" value="Reject Friend" class = "btn btn-defaul" onclick = "cancelFriend(notif.substring(31))" />';
 					
 					// Create an empty <tr> element and add it to the 1st position of the table:
 					var row = table.insertRow(-1);
@@ -235,9 +239,27 @@
 					cell2.innerHTML = addF;
 					cell3.innerHTML = delF;
 				}
-				else
+				else if (notif.search("friend") != -1 && notif.search("accepted") != -1)
 				{
-				
+										// Create an empty <tr> element and add it to the 1st position of the table:
+					var row = table.insertRow(-1);
+					
+					// Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+					var cell1 = row.insertCell(0);
+					
+					// Add some text to the new cells:
+					cell1.innerHTML = notif;
+				}
+				else if (notif.search("friend") != -1 && notif.search("declined") != -1)
+				{
+										// Create an empty <tr> element and add it to the 1st position of the table:
+					var row = table.insertRow(-1);
+					
+					// Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+					var cell1 = row.insertCell(0);
+					
+					// Add some text to the new cells:
+					cell1.innerHTML = notif;
 				}
 
 			})})}
