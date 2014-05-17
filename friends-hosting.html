@@ -14,41 +14,204 @@
     <!-- Add custom CSS here -->
     <link href="css/sb-admin.css" rel="stylesheet">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
-	
-    <!-- JavaScript -->
-    <script src="js/jquery-1.10.2.js"></script>
+	<script src="js/jquery-1.10.2.js"></script>
     <script src="js/bootstrap.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>
+    <script src="js/tablesorter/jquery.tablesorter.js"></script>
+    <script src="js/tablesorter/tables.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.4/angular.min.js"></script>
+    <script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.6/firebase.js'></script>
+    <script type='text/javascript' src='https://cdn.firebase.com/js/simple-login/1.3.0/firebase-simple-login.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.4/angular-cookies.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
-	  <script src="https://static.firebase.com/v0/firebase.js"></script>
-	  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.4/angular.min.js"></script>
-	  <script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.6/firebase.js'></script>
-	  <script type='text/javascript' src='https://cdn.firebase.com/js/simple-login/1.3.0/firebase-simple-login.js'></script>
-	  <script src ="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.4/angular-cookies.js"></script>
-	  <script>
-		  var eventRef = new Firebase('https://eventified.firebaseio.com/Eventifi/1/Events');
-		  var eventApp = angular.module('eventApp',["ngCookies"]);
-		  var test = {};
-		  eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {
-			  $scope.eventdata = {};
+	<script src="https://static.firebase.com/v0/firebase.js"></script>
+	    <!-- JavaScript -->
+		<script type="text/javascript">
+	  var et = null;
+	  var realComb = null;
+	  function logOut() {
+		localStorage.clear();
+		window.location = "sign-in.html";
+	}
+		function expireEvents(){
+			var event = new Firebase('https://eventified.firebaseio.com/Eventifi/1/Events/');
+			event.on('value', function(snapshot){
+				snapshot.forEach(function(messageSnapshot){
+					var event2 = messageSnapshot.name();
+					var thisName = messageSnapshot.val().name;
+					var thisCap = messageSnapshot.val().capacity;
+					var fire = new Firebase('https://eventified.firebaseio.com/Eventifi/1/Events/' + event2);
+					var endTime = messageSnapshot.val().end;
+					var creatorName = messageSnapshot.val().eventcreator;
+					var eYear = endTime.substring(11,15);	
+							
+					var dict = [];
+					dict["Jan"] = 0;	
+					dict["Feb"] = 1;
+					dict["Mar"] = 2;
+					dict["Apr"] = 3;
+					dict["May"] = 4;
+					dict["Jun"] = 5;
+					dict["Jul"] = 6;	
+					dict["Aug"] = 7;
+					dict["Sep"] = 8;
+					dict["Oct"] = 9;
+					dict["Nov"] = 10;
+					dict["Dec"] = 11;	
+					
+					var eMonth = dict[endTime.substring(4,7)];
+					var eDay = endTime.substring(8,10);
+					var eHour = endTime.substring(16,18);
+					var eMinute = endTime.substring(19,21);
+					console.log("eyear " + eYear);
+					console.log("emonth " + eMonth);
+					console.log("eday " + eDay);
+					console.log("ehour " + eHour);
+					console.log("eminute " + eMinute);
+					
+					var d = new Date();
+					var year = d.getFullYear();
+					var month = d.getMonth();
+					var day = d.getDate();
+					var hour = d.getHours();
+					var minute = d.getMinutes();
 
-			  $scope.user = "not logged in";
-			  $scope.user = localStorage.getItem("User");
-			  console.log($scope.user);
-
-		  }])
-
-		function logOut() {
-			localStorage.clear();
-			window.location = "sign-in.html";
+					
+					console.log("year " + year);
+					console.log("month " + month);
+					console.log("day " + day);
+					console.log("hour " + hour);
+					console.log("minute " + minute);
+					var curr = new Date(year, month, day, hour, minute);
+					var eve = new Date(eYear, eMonth, eDay, eHour, eMinute);
+					if (eve <= curr)
+					{
+						fire.remove();
+						var creatorFire = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/');
+						creatorFire.on('value', function(snapshot){
+						snapshot.forEach(function(messageSnapshot){
+						var creatorEmail = messageSnapshot.val().email();
+						var hash = messageSnapshot.name();
+						if(creatorEmail == creatorName)
+						{
+							var cFire = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + hash + '/eventsHosting/');
+							cFire.on('value', function(snapshot){
+							snapshot.forEach(function(messageSnapshot){
+							var creatorEmail = messageSnapshot.val().email();
+							var eName = messageSnapshot.val().name;
+							var eCap = messageSnapshot.val().capacity;
+							
+							if(eName == thisName)
+							{
+								if(eCap == thisCap)
+								{
+									var tempRemove = messageSnapshot.name();
+									var eventToRemove = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + hash + '/eventsHosting/' + tempRemove)
+									eventToRemove.remove();
+								}
+							}
+						})})}})})
+					}
+				})		
+			})
 		}
-			function redirection() {
-				if(localStorage.getItem("User") == null)
-					window.location = "sign-in.html";
-			}
-	  </script>
+          var eventRef = new Firebase('https://eventified.firebaseio.com/Eventifi/1/Events');
+          var eventApp = angular.module('eventApp',["ngCookies"]);
+          var test = {};
+          eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {
+              $scope.eventdata = {};
+
+              $scope.user = "not logged in";
+              $scope.user = localStorage.getItem("User");
+              console.log($scope.user);
+              $scope.createEvent = function() {
+                  console.log($scope.eventdata);
+                  eventRef.push({eventcreator: $scope.user, date: $scope.eventdata.date.toString(), address: $scope.eventdata.address, capacity: $scope.eventdata.capacity, description: $scope.eventdata.description, start: $scope.eventdata.starttime.toString(), end: $scope.eventdata.endtime.toString(), name: $scope.eventdata.namedata})
+              }
+          }])
+		  function redirection() {
+			if(localStorage.getItem("User") == null)
+				window.location = "sign-in.html";
+		}
+
+      </script>
+	  	<script>
+		var underUser = null;
+		
+	      var eventApp = angular.module('eventApp',["ngCookies"]);
+          eventApp.controller('registerController', ['$scope','$cookieStore', function($scope,$cookieStore) {
+			  $scope.user = "not logged in";
+              $scope.user = localStorage.getItem("User");
+			  console.log($scope.user);
+			 
+			  var userPage = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users');
+			  userPage.once('value', function(snapshot){
+				snapshot.forEach(function(messageSnapshot){
+					var temp = messageSnapshot.name();
+					var emailD = messageSnapshot.val().email;
+					if ($scope.user == emailD){
+						realComb = temp;
+						underUser = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + realComb + '/friends');
+						}
+					})})}])
+			underUser = new Firebase('https://eventified.firebaseio.com/Eventifi/0/Users/' + realComb + '/friends');
+			underUser.once('value',function(snapshot){
+				snapshot.forEach(function(messageSnapshot){
+					var friendly = messageSnapshot.val().email;
+					var eventsStuff = new Firebase('https://eventified.firebaseio.com/Eventifi/1/Events/');
+					eventStuff.once('value',function(snapshot2){
+						snapshot2.forEach(function (messageSnapshot2) {
+							var friendCreator = messageSnapshot2.val().eventcreator;
+							if(friendly == friendCreator)
+							{
+								var joe = messageSnapshot.name();
+								var friendEvent = new Firebase('https://eventified.firebaseio.com/Eventifi/1/Events/' + joe);
+							}
+							tableIt(friendEvent);
+						})})})})
+			var tableIt = function(underUser){
+				var table = document.getElementById("info");
+				underUser.on('value', function(snapshot){
+				snapshot.forEach(function(messageSnapshot){
+				et = messageSnapshot.name();
+				console.log(et);	
+				var address = messageSnapshot.val().address;
+				var name = messageSnapshot.val().name;
+				var description = messageSnapshot.val().description;
+				var capacity = messageSnapshot.val().capacity;
+				var startTime = messageSnapshot.val().start;
+				var endTime = messageSnapshot.val().end;
+				
+				
+				var del = '<input type="button" value="Delete" class = "btn btn-defaul" onclick = "confused(et)" />';
+				
+				// Create an empty <tr> element and add it to the 1st position of the table:
+				var row = table.insertRow(1);
+				
+				// Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+				var cell1 = row.insertCell(0);
+				var cell2 = row.insertCell(1);
+				var cell3 = row.insertCell(2);
+				var cell4 = row.insertCell(3);
+				var cell5 = row.insertCell(4);
+				var cell6 = row.insertCell(5);
+				var cell7 = row.insertCell(6);
+				
+				// Add some text to the new cells:
+				cell1.innerHTML = esc(name);
+				cell2.innerHTML = esc(address);
+				cell3.innerHTML = esc(description);
+				cell4.innerHTML = startTime;
+				cell5.innerHTML = endTime;
+				cell6.innerHTML = capacity;
+				cell7.innerHTML = del;
+			})})}
+	</script>
+	
   </head>
-  
-  <body  ng-app="eventApp"  ng-controller="registerController" onload="redirection()">
+
+  <body  ng-app="eventApp"  ng-controller="registerController" onload="redirection(); expireEvents();">
 
     <div id="wrapper">
 
@@ -78,8 +241,9 @@
           </ul>
 
           <ul class="nav navbar-nav navbar-right navbar-user">
+
             <li class="dropdown user-dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{user}}<b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{user}} <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
                 <li><a href="notifs.html"><i class="fa fa-envelope"></i> Notifications <span class="badge">7</span></a></li>
@@ -92,47 +256,38 @@
         </div><!-- /.navbar-collapse -->
       </nav>
 
-    <div id="page-wrapper">
+      <div id="page-wrapper">
 
          <div class="row">
           <div class="col-lg-12">
-            <h1>Events My Friends are Hosting</h1>
+            <h1>Events Friends Hosting</h1>
             <ol class="breadcrumb">
               <li><i class="icon-dashboard"> </li>
               <li class="active"><i class="icon-file-alt"></li>
             </ol>
           </div>
         </div><!-- /.row -->
-<div class="col-lg-6">
+		<div class="">
             <div class="table-responsive">
-              <table class="table table-bordered table-hover table-striped tablesorter">
+              <table class="table table-bordered table-hover table-striped tablesorter" id="info">
                 <thead>
-                <tr>
+                  <tr>
                     <th>Name <i class="fa fa-sort"></i></th>
                     <th>Location <i class="fa fa-sort"></i></th>
-		    <th>Description <i class="fa fa-sort"></i></th>
-		    <th>Start <i class="fa fa-sort"></i></th>
-		    <th>End <i class="fa fa-sort"></i></th>
-		    <th>Capacity <i class="fa fa-sort"></i></th>
-		</tr>
+					<th>Description <i class="fa fa-sort"></i></th>
+					<th>Start <i class="fa fa-sort"></i></th>
+					<th>End <i class="fa fa-sort"></i></th>
+					<th>Capacity <i class="fa fa-sort"></i></th>
+					<th>Delete <i class="fa fa-sort"></i></th>
+                  </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Football Match</td>
-                    <td>Thomas Jefferson HSST</td>
-                    <td>TJHSST vs. Langley</td>
-                    <td>Wed Apr 30 2014 14:30:00 GMT-0400 (Eastern Daylight Time)</td>
-                    <td>Wed Apr 30 2014 18:30:00 GMT-0400 (Eastern Daylight Time)</td>
-		    <td>40</td>
-                  </tr>
                 </tbody>
               </table>
             </div>
           </div>
         </div>
       </div><!-- /#page-wrapper -->
-
-    </div><!-- /#wrapper --><!-- /#page-wrapper -->
 
     </div><!-- /#wrapper -->
   </body>
