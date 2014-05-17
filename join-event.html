@@ -29,6 +29,12 @@
 	    <!-- JavaScript -->
    
 	<script>
+		var eDescrip;
+		var eStart;
+		var eEnd;
+		var eCap;
+		var eName;
+		var eAdd;
 		function redirection() {
 			if(localStorage.getItem("User") == null)
 				window.location = "sign-in.html";
@@ -71,6 +77,7 @@
 	locations.on('value', function(snapshot){
 	var event = snapshot.val();
 	$("#eventName").val(event.name);
+	eName = event.name;
 	$("#eventCrea").val(event.eventcreator);
 	creattor = event.eventcreator;
 	eName = event.name;
@@ -86,6 +93,11 @@
 			}
 		})
 	})
+	eDescrip = event.description
+	eAdd = event.address;
+	eStart = event.start;
+	eEnd = event.end;
+	eCap = event.capacity;
 	$("#eventDesc").val(event.description);
 	$("#loc").val(event.address);
 	$("#startTime").val(event.start);
@@ -167,7 +179,7 @@
 				  eventRef2.child('capacity').set(cap);
 				  eventRef.push({email: $scope.user});
 					console.log("here");
-					 //underUser.push(event);
+					 underUser.push({address: eAdd, capacity: eCap, description: eDescrip, start: eStart, end: eEnd,name:eName});
 					 console.log(event);
 				  $scope.worked = "You have successfully joined the event!";
 					console.log("after");
