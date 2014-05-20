@@ -200,7 +200,8 @@
                             <input type="password" class="form-control input-lg" ng-model ="authinfo.password"placeholder="Password">
 							<h4 class = "text-center">{{redo}}</h4>
                         <div class="form-group">
-                            <button class="btn btn-primary btn-lg btn-block" ng-click = "doSignIn()">Sign In</button>
+                            <button class="btn btn-primary btn-lg btn-block" ng-click = "doSignIn()">Sign In</button><br />
+                            <button class="btn btn-small btn-block" onclick="fbauth()">Sign In with Facebook</button>
                             <span class="pull-right"><a href="register.html">Register</a></span>
 							<span><a href="sign-in-help.html">Need help?</a> &nbsp; <a href="javascript:;" onclick="resetPass()" id="resetPass">Reset password</a></span>
                         </div>
