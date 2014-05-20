@@ -59,7 +59,7 @@
           var eventApp = angular.module('eventApp',["ngCookies"]);
           eventApp.controller('SignUpController', ['$scope', '$cookieStore',function($scope,$cookieStore) {
               var eventRef = new Firebase('https://eventified.firebaseio.com');
-              /*var auth = new FirebaseSimpleLogin(eventRef, function(error, user) {
+              var auth = window.auth = new FirebaseSimpleLogin(eventRef, function(error, user) {
                   if (error) {
                       // an error occurred while attempting login
 					  $scope.redo = "Username or password not recognized.";
@@ -73,7 +73,7 @@
                       console.log('User Logged Out');
                   }
 
-              })*/
+              })
               $scope.authinfo = {};
                 $scope.doSignIn = function(){
                     params = $scope.authinfo;
@@ -96,7 +96,13 @@
                     }, 'text');
                 }
           }]);
-
+        
+        function fbauth() {
+            window.auth.login('facebook', {
+                  rememberMe: true,
+                  scope: 'email'
+            });
+        }
 
 		function initialize() {
 		  var mapOptions = {
