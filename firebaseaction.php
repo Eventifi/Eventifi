@@ -139,6 +139,27 @@ if($act == "register") {
         "password"=>sha1($_POST['password'])
     )));
     die($auth);
+} elseif($act == "fbcheck") {
+   $user = array(
+        "email"=>$_POST['email'],
+        "name"=>$_POST['name'],
+        "password"=>"FACEBOOK_AUTH".time(),
+        "eventsHosting"=>array(),
+        "eventsAttending"=>array(),
+        "confirmToken"=>"FACEBOOK_AUTH".time(),
+        "emailConfirmed"=>true,
+        "resetToken"=>"false",
+        "facebook"=>true,
+        "fbuserdata"=>json_decode($_POST['fbuserdata'])
+    );
+    // Do they exist already?
+    $dup = getUser(array("email"=>$user['email'])); 
+    if($dup != false) {
+        die(json_encode(array("success"=>array("code"=>"OK"))));
+    }
+    // Add to the local user DB
+    $push = $firebase->push("Eventifi/0/Users", $user);
+    die(json_encode(array("success"=>array("code"=>"FBOK", "message"=>"Registration successful -- connected with Facebook."))));
 } elseif($act == "resetpass") {
     $user = getUser(array("email"=>$_POST['email']));
     if($user == false) {

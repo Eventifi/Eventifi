@@ -34,7 +34,8 @@
 	  @media (max-width: 833px){
 	  #map-canvas {
 		left: 0;
-	  }}
+	  }
+      }
     </style>
 	 <!-- JavaScript -->
     <script src="js/jquery-1.10.2.js"></script>
@@ -67,8 +68,34 @@
                       // user authenticated with Firebase
                       console.log('User ID: ' + user.id + ', Provider: ' + user.provider);
                       localStorage.setItem('User', (user.email));
+                      console.log("User",user);
                       $scope.$apply();
-                      window.location="index.html";
+                      if(user.provider == "facebook" && user.verified) {
+                      // Check if they exist.
+                        $.post("firebaseaction.php", {
+                            "act": "fbcheck",
+                            "name": user.displayName,
+                            "email": user.email,
+                            "id": user.id,
+                            "fbuserdata": JSON.stringify(user)
+                        }, function(resp) {
+                           console.log(resp);
+                           try { d = JSON.parse(resp); } catch(e) {
+                               $("h4.text-center.ng-binding").html("An error occurred. Please try again.");
+                               throw e;
+                           }
+                           if(!!d && !!d.error) {
+                                $("h4.text-center.ng-binding").html(d.error.message);
+                                throw d.error.code+": "+d.error.message;
+                           } else if(!!d && !!d.success) {
+                                localStorage.setItem('auth', resp);
+                                localStorage.setItem('fbuserdata', JSON.stringify(user));
+                                location.href = "index.html";
+                           }
+                      });
+                      } else {
+                          window.location="index.html";
+                      }
                   } else {
                       console.log('User Logged Out');
                   }
